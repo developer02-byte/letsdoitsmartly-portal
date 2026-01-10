@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - /bin/cp -R portal /home4/letsdoitadmin/public_html/
+    - /bin/cp -R docs /home4/letsdoitadmin/public_html/
+    - /bin/cp -R google-api /home4/letsdoitadmin/public_html/
+    - /bin/cp deploy.php /home4/letsdoitadmin/public_html/
