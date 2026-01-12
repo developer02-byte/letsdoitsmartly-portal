@@ -1,0 +1,159 @@
+================================================================================
+QUESTIONNAIRE TEMPLATE - READY TO DEPLOY
+================================================================================
+
+✓ Files Confirmed:
+  - index.php (Complete questionnaire form - 11 sections)
+  - submit.php (Complete form processor and summary display)
+
+✓ Files are working in XAMPP
+✓ No database required - Pure HTML/PHP
+✓ Ready for cPanel deployment
+
+================================================================================
+DEPLOYMENT METHOD (5 Minutes)
+================================================================================
+
+STEP 1: LOGIN TO CPANEL
+------------------------
+Open: https://bh-in-32.webhostbox.net:2083
+Username: letsdoitadmin
+Password: [Your cPanel password]
+
+STEP 2: OPEN FILE MANAGER
+--------------------------
+Click on "File Manager" icon in cPanel dashboard
+
+STEP 3: NAVIGATE TO PORTAL
+---------------------------
+1. In File Manager, click "public_html" in left sidebar
+2. Double-click "portal" folder to open it
+3. You should see: assets, includes, install, sessions, templates
+
+STEP 4: CREATE TEMPLATE FOLDER
+-------------------------------
+1. Click the "+ Folder" button at the top (or right-click > "Create New Folder")
+2. Enter folder name: template
+3. Click "Create New Folder"
+4. The "template" folder should now appear in the list
+
+STEP 5: ENTER TEMPLATE FOLDER
+------------------------------
+Double-click the "template" folder to open it
+
+STEP 6: UPLOAD YOUR FILES
+--------------------------
+1. Click "Upload" button at the top
+2. A new upload window will open
+3. Click "Select File" or drag and drop these 2 files:
+
+   FROM YOUR XAMPP (wherever you saved them):
+   - index.php
+   - submit.php
+
+4. Wait for upload to complete (you'll see 100%)
+5. Close the upload window
+
+STEP 7: VERIFY FILES
+--------------------
+Back in File Manager, you should now see:
+- index.php (approx. 70 KB)
+- submit.php (approx. 35 KB)
+
+STEP 8: TEST YOUR QUESTIONNAIRE
+--------------------------------
+Open in browser:
+https://letsdoitsmartly.com/portal/template/
+
+You should see:
+"Static Website Client Intake Questionnaire"
+With all 11 sections ready to fill out!
+
+================================================================================
+FILE LOCATIONS
+================================================================================
+
+FROM (XAMPP):
+Your working template files location
+
+TO (cPanel):
+/home4/letsdoitadmin/public_html/portal/template/
+  ├── index.php
+  └── submit.php
+
+PUBLIC URL:
+https://letsdoitsmartly.com/portal/template/
+OR
+http://43.225.55.146/portal/template/
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Problem: Can't create template folder
+Solution: Make sure you're in /public_html/portal/ directory
+
+Problem: Upload fails
+Solution: Check file size limits in cPanel (should be fine for these files)
+
+Problem: 404 error when visiting URL
+Solution:
+  - Check files are in correct location: /public_html/portal/template/
+  - Check file names are lowercase: index.php and submit.php
+  - Check file permissions (should be 644)
+
+Problem: PHP errors displayed
+Solution: Both files are complete and tested - if errors occur, check PHP version
+          (Files work with PHP 7.4+)
+
+================================================================================
+WHAT HAPPENS AFTER DEPLOYMENT
+================================================================================
+
+1. Users visit: https://letsdoitsmartly.com/portal/template/
+2. They fill out the comprehensive 11-section questionnaire
+3. When submitted, they see a beautifully formatted summary page
+4. They can print/save the summary as PDF
+5. All data is sanitized and displayed securely
+
+================================================================================
+FEATURES INCLUDED
+================================================================================
+
+✓ 11 comprehensive sections
+✓ Business context & goals
+✓ Target audience analysis
+✓ Page structure planning
+✓ Design preferences
+✓ Features & functionality
+✓ Technical requirements
+✓ Content & assets management
+✓ SEO & legal compliance
+✓ Post-launch considerations
+✓ Project summary & deliverables checklist
+
+✓ Responsive design
+✓ Print-friendly summary
+✓ Input sanitization
+✓ Professional formatting
+
+================================================================================
+NOTES
+================================================================================
+
+- No database required - files are self-contained
+- No configuration needed - works immediately after upload
+- Forms submit to submit.php in the same directory
+- All data is sanitized for security
+- Summary page can be printed or saved as PDF
+- Mobile-friendly responsive design
+
+================================================================================
+READY TO DEPLOY!
+================================================================================
+
+Your questionnaire template is complete and tested. Just follow the steps above
+to deploy it to your cPanel server in about 5 minutes!
+
+Questions? Issues? Let me know!
+================================================================================

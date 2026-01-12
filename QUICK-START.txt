@@ -1,0 +1,51 @@
+================================================================================
+QUESTIONNAIRE DEPLOYMENT - QUICK START GUIDE
+================================================================================
+
+📁 FIND YOUR FILES
+-------------------
+Run: find-xampp-files.bat
+This will show you where your index.php and submit.php are located.
+
+OR manually check:
+  - C:\xampp\htdocs\template\
+  - C:\xampp\htdocs\questionnaire\
+  - C:\xampp\htdocs\[your-project-folder]\
+
+📤 UPLOAD TO CPANEL
+--------------------
+1. Login: https://bh-in-32.webhostbox.net:2083
+   Username: letsdoitadmin
+
+2. Open File Manager
+
+3. Navigate: public_html → portal
+
+4. Create folder: template
+
+5. Upload your 2 files:
+   - index.php
+   - submit.php
+
+🌐 TEST YOUR SITE
+------------------
+Visit: https://letsdoitsmartly.com/portal/template/
+
+You should see your questionnaire form!
+
+📖 NEED DETAILED INSTRUCTIONS?
+-------------------------------
+Open: DEPLOY-NOW.txt (step-by-step guide with screenshots references)
+
+❓ TROUBLESHOOTING
+-------------------
+• Can't find files? → Run find-xampp-files.bat
+• Upload fails? → Check DEPLOY-NOW.txt troubleshooting section
+• 404 error? → Verify files are in /public_html/portal/template/
+
+================================================================================
+
+⏱️ TOTAL TIME: 5 minutes
+✅ NO CODING REQUIRED - Just copy & paste files via cPanel!
+
+================================================================================

@@ -1,0 +1,101 @@
+================================================================================
+QUESTIONNAIRE TEMPLATE - DEPLOY RIGHT NOW (5 Minutes)
+================================================================================
+
+YOUR FILES LOCATION:
+Your working template files are in your XAMPP server at: C:\xampp\htdocs\[folder-name]
+
+Common locations:
+  - C:\xampp\htdocs\template
+  - C:\xampp\htdocs\questionnaire
+  - C:\xampp\htdocs\portal
+
+Look for these 2 files:
+  ✓ index.php (the questionnaire form)
+  ✓ submit.php (the form handler)
+
+================================================================================
+UPLOAD TO CPANEL - FOLLOW THESE EXACT STEPS
+================================================================================
+
+STEP 1: LOGIN TO CPANEL (1 minute)
+-----------------------------------
+1. Open browser: https://bh-in-32.webhostbox.net:2083
+2. Username: letsdoitadmin
+3. Password: [Your password]
+4. Click "Log in"
+
+STEP 2: OPEN FILE MANAGER (30 seconds)
+---------------------------------------
+1. Find and click "File Manager" icon in cPanel
+2. File Manager opens in new tab
+
+STEP 3: GO TO PORTAL FOLDER (30 seconds)
+-----------------------------------------
+1. Left sidebar → Click "public_html"
+2. Double-click "portal" folder
+3. You'll see: assets, includes, install, sessions, templates
+
+STEP 4: CREATE TEMPLATE FOLDER (30 seconds)
+--------------------------------------------
+1. Click "+ Folder" button (top toolbar)
+   OR right-click in empty space → "Create New Folder"
+2. Name: template
+3. Click "Create New Folder"
+4. New "template" folder appears
+
+STEP 5: UPLOAD FILES (2 minutes)
+---------------------------------
+1. Double-click "template" folder to open it
+2. Click "Upload" button (top toolbar)
+3. New upload window opens
+4. Click "Select File" button
+5. Navigate to: C:\xampp\htdocs\[your-folder]
+6. Select BOTH files:
+   - index.php
+   - submit.php
+7. Wait for upload to reach 100%
+8. Close upload window
+
+STEP 6: TEST YOUR SITE (30 seconds)
+------------------------------------
+Open browser: https://letsdoitsmartly.com/portal/template/
+
+✓ You should see: "Static Website Client Intake Questionnaire"
+✓ With all 11 sections ready to use!
+
+================================================================================
+DONE! 🎉
+================================================================================
+
+Your questionnaire is now live at:
+https://letsdoitsmartly.com/portal/template/
+
+Share this URL with your clients to collect their website requirements!
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Can't find your XAMPP files?
+→ Check: C:\xampp\htdocs\ (look in subfolders)
+→ Search your computer for: index.php submit.php
+
+404 Error when visiting the URL?
+→ Check files are in: /public_html/portal/template/
+→ Check file names are exact: index.php and submit.php
+
+PHP errors on the page?
+→ Both files should be complete (index.php ~70KB, submit.php ~35KB)
+→ Check files uploaded completely
+
+Upload fails?
+→ Try uploading one file at a time
+→ Check your internet connection
+
+Still stuck?
+→ Take screenshot of File Manager
+→ Take screenshot of any error
+→ Share for help!
+
+================================================================================

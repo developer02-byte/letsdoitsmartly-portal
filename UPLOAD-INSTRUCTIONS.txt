@@ -1,0 +1,89 @@
+================================================================================
+QUESTIONNAIRE TEMPLATE - MANUAL UPLOAD INSTRUCTIONS
+================================================================================
+
+PROBLEM IDENTIFIED:
+The /portal/template directory doesn't exist on the server yet.
+
+SOLUTION - Follow these exact steps:
+================================================================================
+
+STEP 1: LOGIN TO CPANEL
+------------------------
+1. Open your browser
+2. Go to: https://bh-in-32.webhostbox.net:2083
+3. Username: letsdoitadmin
+4. Enter your password (or use the token if prompted)
+5. Click "Log in"
+
+STEP 2: OPEN FILE MANAGER
+--------------------------
+1. Once logged in, look for "File Manager" icon
+2. Click on "File Manager"
+3. A new tab will open showing your files
+
+STEP 3: NAVIGATE TO PORTAL FOLDER
+----------------------------------
+1. In the left sidebar, click on "public_html"
+2. Double-click on the "portal" folder
+3. You should now see folders like: assets, includes, install, sessions, templates
+
+STEP 4: CREATE TEMPLATE FOLDER
+-------------------------------
+1. Click the "+ Folder" button at the top (or right-click and select "Create New Folder")
+2. Name it exactly: template
+3. Click "Create New Folder"
+4. You should now see a "template" folder in the list
+
+STEP 5: UPLOAD YOUR FILES
+--------------------------
+1. Double-click on the "template" folder to open it
+2. Click the "Upload" button at the top
+3. A new upload page will open
+4. Drag and drop these 2 files:
+   - index.php
+   - submit.php
+
+   OR click "Select File" and browse to find them
+
+5. Wait for the upload to complete (you'll see 100% progress)
+6. Close the upload page
+
+STEP 6: VERIFY
+--------------
+1. You should now see both files in /public_html/portal/template/:
+   - index.php
+   - submit.php
+
+2. Visit this URL in your browser:
+   https://letsdoitsmartly.com/portal/template/
+
+3. You should see the questionnaire form!
+
+================================================================================
+TROUBLESHOOTING:
+================================================================================
+
+If you can't find the files to upload:
+- They should be in: C:\Projects\letsdoitsmartly-portal-main\
+- Or wherever you saved the index.php and submit.php files
+
+If the website shows a 404 error:
+- Make sure the files are in the correct location: /public_html/portal/template/
+- Make sure the files are named exactly: index.php and submit.php (lowercase)
+
+If you see errors on the page:
+- Check that both files were uploaded completely
+- Make sure the files have the correct permissions (usually 644)
+
+================================================================================
+NEED HELP?
+================================================================================
+
+If you're still having issues:
+1. Take a screenshot of what you see in File Manager
+2. Take a screenshot of any error messages
+3. Share those and I can provide more specific help
+
+The manual upload method is 100% reliable and should take less than 5 minutes!
+================================================================================
