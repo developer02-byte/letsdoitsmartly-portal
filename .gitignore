@@ -1,1 +1,56 @@
+<<<<<<< HEAD
 letsdoitsmartly-portal-main/
+=======
+# Dependencies
+/vendor/
+/node_modules/
+
+# Environment files (contain passwords)
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/logs/
+
+# Cache
+/cache/
+*.cache
+
+# Temporary files
+/tmp/
+*.tmp
+
+# Sensitive config files on server (don't track)
+# portal/includes/db.php  # Uncomment if you want to exclude db credentials
+deploy_config.php
+
+# Old folders (if any)
+/well-known/
+
+# Claude Code internal
+.claude/
+
+# Browser testing
+/browser_testing/
+
+# Session files (created at runtime)
+/portal/sessions/
+
+# Local credentials (secured on server at /home4/letsdoitadmin/credentials/)
+/credentials/
+
+# Windows reserved filenames
+nul
+>>>>>>> c419d64fa49e7b93347acb2edc6d15733b32adcf

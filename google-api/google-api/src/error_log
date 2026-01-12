@@ -1,0 +1,27 @@
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Client" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Service" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\AccessToken\Revoke" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\AccessToken\Verify" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Model" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Utils\UriTemplate" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\AuthHandler\Guzzle6AuthHandler" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\AuthHandler\Guzzle7AuthHandler" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\AuthHandler\AuthHandlerFactory" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Http\Batch" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Http\MediaFileUpload" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Http\REST" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Task\Retryable" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Task\Exception" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Task\Runner" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Collection" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Service\Exception" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Service\Resource" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Warning:  Class "Google\Exception" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 32
+[08-Oct-2025 06:40:24 UTC] PHP Fatal error:  Uncaught Error: Class "Google\Task\Composer" not found in /home/wmdadmin/public_html/new/google-api/src/aliases.php:39
+Stack trace:
+#0 {main}
+  thrown in /home/wmdadmin/public_html/new/google-api/src/aliases.php on line 39
+[08-Oct-2025 06:41:17 UTC] PHP Fatal error:  Uncaught Error: Class "Google\Model" not found in /home/wmdadmin/public_html/new/google-api/src/Collection.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/wmdadmin/public_html/new/google-api/src/Collection.php on line 10
