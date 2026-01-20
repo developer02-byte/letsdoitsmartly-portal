@@ -7,13 +7,13 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-// Configuration
+// Configuration - uses environment variables for CI/CD, falls back to defaults for local
 const config = {
-  hostname: 'bh-in-32.webhostbox.net',
+  hostname: process.env.CPANEL_HOSTNAME || 'bh-in-32.webhostbox.net',
   port: 2083,
-  username: 'letsdoitadmin',
-  token: 'P6WYJDG7L89HO9XN9QUDTXXP8TMKU0TV',
-  basePath: '/home4/letsdoitadmin/public_html'
+  username: process.env.CPANEL_USERNAME || 'letsdoitadmin',
+  token: process.env.CPANEL_TOKEN || 'P6WYJDG7L89HO9XN9QUDTXXP8TMKU0TV',
+  basePath: process.env.CPANEL_BASE_PATH || '/home4/letsdoitadmin/public_html'
 };
 
 // Directories to deploy

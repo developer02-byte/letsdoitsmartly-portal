@@ -448,6 +448,11 @@ body {
     height: auto !important;
 }
 
+/* Reduce bottom margin for last content card in main content */
+.main-content > .content-card:last-child {
+    margin-bottom: 10px !important;
+}
+
 /* Remove bottom padding from filter card body */
 .content-card.mb-0 .card-body {
     padding-bottom: 10px !important;

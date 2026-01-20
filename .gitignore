@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-letsdoitsmartly-portal-main/
-=======
 # Dependencies
 /vendor/
 /node_modules/
@@ -51,6 +48,8 @@ deploy_config.php
 # Local credentials (secured on server at /home4/letsdoitadmin/credentials/)
 /credentials/
 
+# Duplicate nested folder
+letsdoitsmartly-portal-main/
+
 # Windows reserved filenames
 nul
->>>>>>> c419d64fa49e7b93347acb2edc6d15733b32adcf

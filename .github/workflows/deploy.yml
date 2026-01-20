@@ -1,0 +1,34 @@
+name: Deploy to cPanel
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Deploy to cPanel
+        env:
+          CPANEL_HOSTNAME: ${{ secrets.CPANEL_HOSTNAME }}
+          CPANEL_USERNAME: ${{ secrets.CPANEL_USERNAME }}
+          CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
+          CPANEL_BASE_PATH: ${{ secrets.CPANEL_BASE_PATH }}
+        run: |
+          cd deploy
+          node cpanel-deploy.js
+
+      - name: Deployment Summary
+        run: |
+          echo "::notice::Deployment completed successfully to ${{ secrets.CPANEL_HOSTNAME }}"
