@@ -2276,15 +2276,24 @@ body {
 }
 
 /* Section styles - Multi-step form (one section at a time) */
+/* IMPORTANT: Hide all sections by default on ALL screen sizes */
 .questionnaire-section {
     display: none !important;
     animation: fadeInUp 0.3s ease-in-out;
     padding: 2rem 0;
     min-height: 400px;
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
 }
 
 .questionnaire-section.active {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
 }
 
 .section-heading {
@@ -2594,8 +2603,13 @@ body {
     }
 
     .questionnaire-section {
+        display: none !important;
         padding: 1.5rem 0;
         min-height: 300px;
+    }
+
+    .questionnaire-section.active {
+        display: block !important;
     }
 
     .section-heading {
@@ -2686,8 +2700,13 @@ body {
     }
 
     .questionnaire-section {
+        display: none !important;
         padding: 1rem 0;
         min-height: 250px;
+    }
+
+    .questionnaire-section.active {
+        display: block !important;
     }
 
     .section-heading {
