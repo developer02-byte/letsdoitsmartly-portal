@@ -435,27 +435,38 @@ if ($submission_id > 0) {
 
                     <hr class="my-4">
                     <h5 class="mb-3">Additional Pages</h5>
-                    <p class="text-muted small">List any pages not covered above</p>
+                    <p class="text-muted small">List any pages not covered above (you can add more)</p>
 
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="additionalPagesTable">
                             <thead>
                                 <tr>
-                                    <th>Page Name</th>
-                                    <th>Purpose</th>
-                                    <th>Notes</th>
+                                    <th style="width: 30%;">Page Name</th>
+                                    <th style="width: 30%;">Purpose</th>
+                                    <th style="width: 35%;">Notes</th>
+                                    <th style="width: 5%;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="additionalPagesTableBody">
                                 <?php for ($i = 0; $i < 3; $i++): ?>
-                                <tr>
-                                    <td><input type="text" class="form-control form-control-sm" name="additional_pages[<?php echo $i; ?>][name]"></td>
-                                    <td><input type="text" class="form-control form-control-sm" name="additional_pages[<?php echo $i; ?>][purpose]"></td>
-                                    <td><input type="text" class="form-control form-control-sm" name="additional_pages[<?php echo $i; ?>][notes]"></td>
+                                <tr data-index="<?php echo $i; ?>">
+                                    <td><input type="text" class="form-control form-control-sm" name="additional_pages[<?php echo $i; ?>][name]" value="<?php echo htmlspecialchars($draft_data['additional_pages'][$i]['name'] ?? ''); ?>"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="additional_pages[<?php echo $i; ?>][purpose]" value="<?php echo htmlspecialchars($draft_data['additional_pages'][$i]['purpose'] ?? ''); ?>"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="additional_pages[<?php echo $i; ?>][notes]" value="<?php echo htmlspecialchars($draft_data['additional_pages'][$i]['notes'] ?? ''); ?>"></td>
+                                    <td class="text-center align-middle">
+                                        <button type="button" class="btn btn-sm btn-outline-danger remove-additional-page-btn" title="Remove page">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <?php endfor; ?>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="text-end mb-3">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addAdditionalPageBtn">
+                            <i class="bi bi-plus-circle me-1"></i> Add Additional Page
+                        </button>
                     </div>
 
                     <hr class="my-4">
@@ -2404,6 +2415,49 @@ document.getElementById('avoidSitesTableBody').addEventListener('click', functio
             removeBtn.closest('tr').remove();
         } else {
             showToast('warning', 'You must keep at least one avoid website row');
+        }
+    }
+});
+
+// ===== Dynamic Additional Pages Rows (Section 4) =====
+let additionalPageIndex = 3; // Start from 3 since we have 0, 1, 2 already
+
+// Add additional page row
+document.getElementById('addAdditionalPageBtn').addEventListener('click', function() {
+    const tbody = document.getElementById('additionalPagesTableBody');
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-index', additionalPageIndex);
+    newRow.innerHTML = `
+        <td><input type="text" class="form-control form-control-sm" name="additional_pages[${additionalPageIndex}][name]"></td>
+        <td><input type="text" class="form-control form-control-sm" name="additional_pages[${additionalPageIndex}][purpose]"></td>
+        <td><input type="text" class="form-control form-control-sm" name="additional_pages[${additionalPageIndex}][notes]"></td>
+        <td class="text-center align-middle">
+            <button type="button" class="btn btn-sm btn-outline-danger remove-additional-page-btn" title="Remove page">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    `;
+    tbody.appendChild(newRow);
+    additionalPageIndex++;
+
+    // Setup auto-save for new inputs
+    newRow.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('change', setupAutoSave);
+    });
+});
+
+// Remove additional page row (event delegation)
+document.getElementById('additionalPagesTableBody').addEventListener('click', function(e) {
+    const removeBtn = e.target.closest('.remove-additional-page-btn');
+    if (removeBtn) {
+        const tbody = document.getElementById('additionalPagesTableBody');
+        const rowCount = tbody.querySelectorAll('tr').length;
+
+        // Keep at least 1 row
+        if (rowCount > 1) {
+            removeBtn.closest('tr').remove();
+        } else {
+            showToast('warning', 'You must keep at least one additional page row');
         }
     }
 });
