@@ -2429,24 +2429,32 @@ body {
 }
 
 /* Dynamic table row controls */
-#competitorsTable .remove-competitor-btn {
+#competitorsTable .remove-competitor-btn,
+#referenceSitesTable .remove-reference-site-btn,
+#avoidSitesTable .remove-avoid-site-btn {
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
     border-width: 1px;
 }
 
-#competitorsTable .remove-competitor-btn:hover {
+#competitorsTable .remove-competitor-btn:hover,
+#referenceSitesTable .remove-reference-site-btn:hover,
+#avoidSitesTable .remove-avoid-site-btn:hover {
     background-color: #dc2626;
     color: white;
     border-color: #dc2626;
 }
 
-#addCompetitorBtn {
+#addCompetitorBtn,
+#addReferenceSiteBtn,
+#addAvoidSiteBtn {
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
 }
 
-#addCompetitorBtn:hover {
+#addCompetitorBtn:hover,
+#addReferenceSiteBtn:hover,
+#addAvoidSiteBtn:hover {
     background-color: #2563eb;
     color: white;
     border-color: #2563eb;
@@ -2622,22 +2630,30 @@ body {
 }
 
 /* Dark mode for dynamic table buttons */
-[data-theme="dark"] #competitorsTable .remove-competitor-btn {
+[data-theme="dark"] #competitorsTable .remove-competitor-btn,
+[data-theme="dark"] #referenceSitesTable .remove-reference-site-btn,
+[data-theme="dark"] #avoidSitesTable .remove-avoid-site-btn {
     border-color: var(--danger);
     color: var(--danger);
 }
 
-[data-theme="dark"] #competitorsTable .remove-competitor-btn:hover {
+[data-theme="dark"] #competitorsTable .remove-competitor-btn:hover,
+[data-theme="dark"] #referenceSitesTable .remove-reference-site-btn:hover,
+[data-theme="dark"] #avoidSitesTable .remove-avoid-site-btn:hover {
     background-color: var(--danger);
     color: white;
 }
 
-[data-theme="dark"] #addCompetitorBtn {
+[data-theme="dark"] #addCompetitorBtn,
+[data-theme="dark"] #addReferenceSiteBtn,
+[data-theme="dark"] #addAvoidSiteBtn {
     border-color: var(--primary);
     color: var(--primary);
 }
 
-[data-theme="dark"] #addCompetitorBtn:hover {
+[data-theme="dark"] #addCompetitorBtn:hover,
+[data-theme="dark"] #addReferenceSiteBtn:hover,
+[data-theme="dark"] #addAvoidSiteBtn:hover {
     background-color: var(--primary);
     color: white;
 }

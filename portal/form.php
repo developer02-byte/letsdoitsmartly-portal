@@ -483,43 +483,65 @@ if ($submission_id > 0) {
                     </h3>
 
                     <h5 class="mb-3">Reference Websites</h5>
-                    <p class="text-muted small">Provide 2-3 websites you like (doesn't need to be in your industry)</p>
+                    <p class="text-muted small">Provide 2-3 websites you like (doesn't need to be in your industry, you can add more)</p>
 
-                    <div class="table-responsive mb-4">
-                        <table class="table table-bordered">
+                    <div class="table-responsive mb-2">
+                        <table class="table table-bordered" id="referenceSitesTable">
                             <thead>
                                 <tr>
-                                    <th>Website URL</th>
-                                    <th>What you like about it</th>
+                                    <th style="width: 35%;">Website URL</th>
+                                    <th style="width: 60%;">What you like about it</th>
+                                    <th style="width: 5%;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="referenceSitesTableBody">
                                 <?php for ($i = 0; $i < 3; $i++): ?>
-                                <tr>
-                                    <td><input type="url" class="form-control form-control-sm" name="reference_sites[<?php echo $i; ?>][url]" placeholder="https://"></td>
-                                    <td><textarea class="form-control form-control-sm" name="reference_sites[<?php echo $i; ?>][likes]" rows="2"></textarea></td>
+                                <tr data-index="<?php echo $i; ?>">
+                                    <td><input type="url" class="form-control form-control-sm" name="reference_sites[<?php echo $i; ?>][url]" placeholder="https://" value="<?php echo htmlspecialchars($draft_data['reference_sites'][$i]['url'] ?? ''); ?>"></td>
+                                    <td><textarea class="form-control form-control-sm" name="reference_sites[<?php echo $i; ?>][likes]" rows="2"><?php echo htmlspecialchars($draft_data['reference_sites'][$i]['likes'] ?? ''); ?></textarea></td>
+                                    <td class="text-center align-middle">
+                                        <button type="button" class="btn btn-sm btn-outline-danger remove-reference-site-btn" title="Remove website">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <?php endfor; ?>
                             </tbody>
                         </table>
                     </div>
+                    <div class="text-end mb-4">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addReferenceSiteBtn">
+                            <i class="bi bi-plus-circle me-1"></i> Add Reference Website
+                        </button>
+                    </div>
 
                     <h6>Websites to avoid (optional)</h6>
-                    <div class="table-responsive mb-4">
-                        <table class="table table-bordered">
+                    <div class="table-responsive mb-2">
+                        <table class="table table-bordered" id="avoidSitesTable">
                             <thead>
                                 <tr>
-                                    <th>Website URL</th>
-                                    <th>What you dislike</th>
+                                    <th style="width: 35%;">Website URL</th>
+                                    <th style="width: 60%;">What you dislike</th>
+                                    <th style="width: 5%;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="url" class="form-control form-control-sm" name="avoid_sites[0][url]" placeholder="https://"></td>
-                                    <td><textarea class="form-control form-control-sm" name="avoid_sites[0][dislikes]" rows="2"></textarea></td>
+                            <tbody id="avoidSitesTableBody">
+                                <tr data-index="0">
+                                    <td><input type="url" class="form-control form-control-sm" name="avoid_sites[0][url]" placeholder="https://" value="<?php echo htmlspecialchars($draft_data['avoid_sites'][0]['url'] ?? ''); ?>"></td>
+                                    <td><textarea class="form-control form-control-sm" name="avoid_sites[0][dislikes]" rows="2"><?php echo htmlspecialchars($draft_data['avoid_sites'][0]['dislikes'] ?? ''); ?></textarea></td>
+                                    <td class="text-center align-middle">
+                                        <button type="button" class="btn btn-sm btn-outline-danger remove-avoid-site-btn" title="Remove website">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="text-end mb-4">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addAvoidSiteBtn">
+                            <i class="bi bi-plus-circle me-1"></i> Add Website to Avoid
+                        </button>
                     </div>
 
                     <hr class="my-4">
@@ -2298,6 +2320,90 @@ document.getElementById('competitorsTableBody').addEventListener('click', functi
             removeBtn.closest('tr').remove();
         } else {
             showToast('warning', 'You must keep at least one competitor row');
+        }
+    }
+});
+
+// ===== Dynamic Reference Sites Rows (Section 5) =====
+let referenceSiteIndex = 3; // Start from 3 since we have 0, 1, 2 already
+
+// Add reference site row
+document.getElementById('addReferenceSiteBtn').addEventListener('click', function() {
+    const tbody = document.getElementById('referenceSitesTableBody');
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-index', referenceSiteIndex);
+    newRow.innerHTML = `
+        <td><input type="url" class="form-control form-control-sm" name="reference_sites[${referenceSiteIndex}][url]" placeholder="https://"></td>
+        <td><textarea class="form-control form-control-sm" name="reference_sites[${referenceSiteIndex}][likes]" rows="2"></textarea></td>
+        <td class="text-center align-middle">
+            <button type="button" class="btn btn-sm btn-outline-danger remove-reference-site-btn" title="Remove website">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    `;
+    tbody.appendChild(newRow);
+    referenceSiteIndex++;
+
+    // Setup auto-save for new inputs
+    newRow.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('change', setupAutoSave);
+    });
+});
+
+// Remove reference site row (event delegation)
+document.getElementById('referenceSitesTableBody').addEventListener('click', function(e) {
+    const removeBtn = e.target.closest('.remove-reference-site-btn');
+    if (removeBtn) {
+        const tbody = document.getElementById('referenceSitesTableBody');
+        const rowCount = tbody.querySelectorAll('tr').length;
+
+        // Keep at least 1 row
+        if (rowCount > 1) {
+            removeBtn.closest('tr').remove();
+        } else {
+            showToast('warning', 'You must keep at least one reference website row');
+        }
+    }
+});
+
+// ===== Dynamic Avoid Sites Rows (Section 5) =====
+let avoidSiteIndex = 1; // Start from 1 since we have 0 already
+
+// Add avoid site row
+document.getElementById('addAvoidSiteBtn').addEventListener('click', function() {
+    const tbody = document.getElementById('avoidSitesTableBody');
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-index', avoidSiteIndex);
+    newRow.innerHTML = `
+        <td><input type="url" class="form-control form-control-sm" name="avoid_sites[${avoidSiteIndex}][url]" placeholder="https://"></td>
+        <td><textarea class="form-control form-control-sm" name="avoid_sites[${avoidSiteIndex}][dislikes]" rows="2"></textarea></td>
+        <td class="text-center align-middle">
+            <button type="button" class="btn btn-sm btn-outline-danger remove-avoid-site-btn" title="Remove website">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    `;
+    tbody.appendChild(newRow);
+    avoidSiteIndex++;
+
+    // Setup auto-save for new inputs
+    newRow.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('change', setupAutoSave);
+    });
+});
+
+// Remove avoid site row (event delegation)
+document.getElementById('avoidSitesTableBody').addEventListener('click', function(e) {
+    const removeBtn = e.target.closest('.remove-avoid-site-btn');
+    if (removeBtn) {
+        const tbody = document.getElementById('avoidSitesTableBody');
+        const rowCount = tbody.querySelectorAll('tr').length;
+
+        // Keep at least 1 row
+        if (rowCount > 1) {
+            removeBtn.closest('tr').remove();
+        } else {
+            showToast('warning', 'You must keep at least one avoid website row');
         }
     }
 });
