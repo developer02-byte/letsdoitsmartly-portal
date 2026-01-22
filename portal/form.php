@@ -169,27 +169,38 @@ if ($submission_id > 0) {
 
                     <hr class="my-4">
                     <h5 class="mb-3">Competitive Landscape</h5>
-                    <p class="text-muted small">List 2-3 competitors or similar businesses</p>
+                    <p class="text-muted small">List 2-3 competitors or similar businesses (you can add more)</p>
 
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="competitorsTable">
                             <thead>
                                 <tr>
-                                    <th>Competitor Name</th>
-                                    <th>URL</th>
-                                    <th>What they do well / What to avoid</th>
+                                    <th style="width: 25%;">Competitor Name</th>
+                                    <th style="width: 25%;">URL</th>
+                                    <th style="width: 45%;">What they do well / What to avoid</th>
+                                    <th style="width: 5%;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="competitorsTableBody">
                                 <?php for ($i = 0; $i < 3; $i++): ?>
-                                <tr>
-                                    <td><input type="text" class="form-control form-control-sm" name="competitors[<?php echo $i; ?>][name]"></td>
-                                    <td><input type="url" class="form-control form-control-sm" name="competitors[<?php echo $i; ?>][url]" placeholder="https://"></td>
-                                    <td><textarea class="form-control form-control-sm" name="competitors[<?php echo $i; ?>][notes]" rows="2"></textarea></td>
+                                <tr data-index="<?php echo $i; ?>">
+                                    <td><input type="text" class="form-control form-control-sm" name="competitors[<?php echo $i; ?>][name]" value="<?php echo htmlspecialchars($draft_data['competitors'][$i]['name'] ?? ''); ?>"></td>
+                                    <td><input type="url" class="form-control form-control-sm" name="competitors[<?php echo $i; ?>][url]" placeholder="https://" value="<?php echo htmlspecialchars($draft_data['competitors'][$i]['url'] ?? ''); ?>"></td>
+                                    <td><textarea class="form-control form-control-sm" name="competitors[<?php echo $i; ?>][notes]" rows="2"><?php echo htmlspecialchars($draft_data['competitors'][$i]['notes'] ?? ''); ?></textarea></td>
+                                    <td class="text-center align-middle">
+                                        <button type="button" class="btn btn-sm btn-outline-danger remove-competitor-btn" title="Remove competitor">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <?php endfor; ?>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="text-end mb-3">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addCompetitorBtn">
+                            <i class="bi bi-plus-circle me-1"></i> Add Competitor
+                        </button>
                     </div>
                 </div>
 
@@ -2246,6 +2257,49 @@ function setupAutoSave() {
 // Start auto-save on any input change
 document.querySelectorAll('input, textarea, select').forEach(element => {
     element.addEventListener('change', setupAutoSave);
+});
+
+// ===== Dynamic Competitor Rows =====
+let competitorIndex = 3; // Start from 3 since we have 0, 1, 2 already
+
+// Add competitor row
+document.getElementById('addCompetitorBtn').addEventListener('click', function() {
+    const tbody = document.getElementById('competitorsTableBody');
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-index', competitorIndex);
+    newRow.innerHTML = `
+        <td><input type="text" class="form-control form-control-sm" name="competitors[${competitorIndex}][name]"></td>
+        <td><input type="url" class="form-control form-control-sm" name="competitors[${competitorIndex}][url]" placeholder="https://"></td>
+        <td><textarea class="form-control form-control-sm" name="competitors[${competitorIndex}][notes]" rows="2"></textarea></td>
+        <td class="text-center align-middle">
+            <button type="button" class="btn btn-sm btn-outline-danger remove-competitor-btn" title="Remove competitor">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    `;
+    tbody.appendChild(newRow);
+    competitorIndex++;
+
+    // Setup auto-save for new inputs
+    newRow.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('change', setupAutoSave);
+    });
+});
+
+// Remove competitor row (event delegation)
+document.getElementById('competitorsTableBody').addEventListener('click', function(e) {
+    const removeBtn = e.target.closest('.remove-competitor-btn');
+    if (removeBtn) {
+        const tbody = document.getElementById('competitorsTableBody');
+        const rowCount = tbody.querySelectorAll('tr').length;
+
+        // Keep at least 1 row
+        if (rowCount > 1) {
+            removeBtn.closest('tr').remove();
+        } else {
+            showToast('warning', 'You must keep at least one competitor row');
+        }
+    }
 });
 
 // Initialize

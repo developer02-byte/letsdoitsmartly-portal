@@ -2428,6 +2428,30 @@ body {
     vertical-align: middle;
 }
 
+/* Dynamic table row controls */
+#competitorsTable .remove-competitor-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-width: 1px;
+}
+
+#competitorsTable .remove-competitor-btn:hover {
+    background-color: #dc2626;
+    color: white;
+    border-color: #dc2626;
+}
+
+#addCompetitorBtn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+#addCompetitorBtn:hover {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
 /* Table responsive wrapper */
 .table-responsive {
     border-radius: 8px;
@@ -2595,6 +2619,27 @@ body {
     background: var(--bg-card);
     border-top-color: var(--primary);
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark mode for dynamic table buttons */
+[data-theme="dark"] #competitorsTable .remove-competitor-btn {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+[data-theme="dark"] #competitorsTable .remove-competitor-btn:hover {
+    background-color: var(--danger);
+    color: white;
+}
+
+[data-theme="dark"] #addCompetitorBtn {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+[data-theme="dark"] #addCompetitorBtn:hover {
+    background-color: var(--primary);
+    color: white;
 }
 
 /* ===== Questionnaire Form Responsive Styles ===== */
