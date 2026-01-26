@@ -340,3 +340,204 @@ function closeSidebar() {
     if (toggle) toggle.innerHTML = '<i class="bi bi-list"></i>';
     document.body.style.overflow = '';
 }
+
+
+// ===== Theme Management =====
+const Theme = {
+    LIGHT: 'light',
+    DARK: 'dark',
+    STORAGE_KEY: 'theme-preference'
+};
+
+// Initialize theme on page load
+function initTheme() {
+    const html = document.documentElement;
+
+    // Check if theme was already initialized by blocking script in header
+    const alreadyInitialized = html.getAttribute('data-theme-initialized') === 'true';
+
+    if (!alreadyInitialized) {
+        // Fallback: apply theme if blocking script didn't run
+        const savedTheme = localStorage.getItem(Theme.STORAGE_KEY);
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (systemPrefersDark ? Theme.DARK : Theme.LIGHT);
+
+        html.classList.add('no-transition');
+        setTheme(theme, false);
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                html.classList.remove('no-transition');
+            });
+        });
+    }
+
+    // Update theme toggle button to match current theme
+    updateThemeToggleButton();
+
+    // Setup theme toggle button
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem(Theme.STORAGE_KEY)) {
+            setTheme(e.matches ? Theme.DARK : Theme.LIGHT);
+        }
+    });
+}
+
+// Set theme
+function setTheme(theme, savePreference = true) {
+    const html = document.documentElement;
+
+    // Apply theme changes immediately and synchronously to prevent flicker
+    if (theme === Theme.DARK) {
+        html.setAttribute('data-theme', 'dark');
+    } else {
+        html.removeAttribute('data-theme');
+    }
+
+    // Update theme toggle button
+    updateThemeToggleButton();
+
+    if (savePreference) {
+        localStorage.setItem(Theme.STORAGE_KEY, theme);
+    }
+}
+
+// Update theme toggle button UI to match current theme
+function updateThemeToggleButton() {
+    const currentTheme = getCurrentTheme();
+    const themeIcon = document.getElementById('themeIcon');
+    const themeToggle = document.getElementById('themeToggle');
+
+    if (currentTheme === Theme.DARK) {
+        if (themeIcon) {
+            themeIcon.className = 'bi bi-sun-fill';
+        }
+        if (themeToggle) {
+            const span = themeToggle.querySelector('span');
+            if (span) {
+                span.textContent = 'Light';
+            }
+        }
+    } else {
+        if (themeIcon) {
+            themeIcon.className = 'bi bi-moon-fill';
+        }
+        if (themeToggle) {
+            const span = themeToggle.querySelector('span');
+            if (span) {
+                span.textContent = 'Dark';
+            }
+        }
+    }
+}
+
+// Toggle theme
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? Theme.LIGHT : Theme.DARK;
+    setTheme(newTheme);
+}
+
+// Get current theme
+function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? Theme.DARK : Theme.LIGHT;
+}
+
+// Initialize theme as soon as possible
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTheme);
+} else {
+    initTheme();
+}
+
+// ===== Form Conditional Logic =====
+
+// CMS Content Management conditional fields
+document.addEventListener('DOMContentLoaded', function() {
+    const cmsYes = document.getElementById('cms_yes');
+    const cmsNo = document.getElementById('cms_no');
+    const contentTypesSection = document.getElementById('cms_content_types_section');
+    const cmsSolutionSection = document.getElementById('cms_solution_section');
+
+    if (cmsYes && cmsNo && contentTypesSection && cmsSolutionSection) {
+        function toggleCMSFields() {
+            if (cmsYes.checked) {
+                contentTypesSection.style.display = 'block';
+                cmsSolutionSection.style.display = 'block';
+            } else {
+                contentTypesSection.style.display = 'none';
+                cmsSolutionSection.style.display = 'none';
+            }
+        }
+
+        // Add event listeners
+        cmsYes.addEventListener('change', toggleCMSFields);
+        cmsNo.addEventListener('change', toggleCMSFields);
+
+        // Initialize on page load
+        toggleCMSFields();
+    }
+
+    // Domain owned conditional field
+    const domYes = document.getElementById('dom_yes');
+    const domNo = document.getElementById('dom_no');
+    const domainNameSection = document.getElementById('domain_name_section');
+
+    if (domYes && domNo && domainNameSection) {
+        function toggleDomainNameField() {
+            if (domYes.checked) {
+                domainNameSection.style.display = 'block';
+            } else {
+                domainNameSection.style.display = 'none';
+            }
+        }
+
+        domYes.addEventListener('change', toggleDomainNameField);
+        domNo.addEventListener('change', toggleDomainNameField);
+        toggleDomainNameField();
+    }
+
+    // Hosting account exists conditional field
+    const hostYes = document.getElementById('host_yes');
+    const hostNo = document.getElementById('host_no');
+    const hostingProviderSection = document.getElementById('hosting_provider_section');
+
+    if (hostYes && hostNo && hostingProviderSection) {
+        function toggleHostingProviderField() {
+            if (hostYes.checked) {
+                hostingProviderSection.style.display = 'block';
+            } else {
+                hostingProviderSection.style.display = 'none';
+            }
+        }
+
+        hostYes.addEventListener('change', toggleHostingProviderField);
+        hostNo.addEventListener('change', toggleHostingProviderField);
+        toggleHostingProviderField();
+    }
+
+    // Webmail preference Other conditional field
+    const webmailRc = document.getElementById('webmail_rc');
+    const webmailOther = document.getElementById('webmail_other');
+    const webmailOtherField = document.getElementById('webmail_other_field');
+
+    if (webmailRc && webmailOther && webmailOtherField) {
+        function toggleWebmailOtherField() {
+            if (webmailOther.checked) {
+                webmailOtherField.style.display = 'block';
+            } else {
+                webmailOtherField.style.display = 'none';
+            }
+        }
+
+        webmailRc.addEventListener('change', toggleWebmailOtherField);
+        webmailOther.addEventListener('change', toggleWebmailOtherField);
+        toggleWebmailOtherField();
+    }
+});

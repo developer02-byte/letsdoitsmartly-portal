@@ -24,6 +24,11 @@ const filesToDeploy = [
     local: '../portal/templates/header.php',
     remote: '/portal/templates/header.php',
     name: 'Header (Theme Initialization & Critical Styles)'
+  },
+  {
+    local: '../portal/assets/js/app.js',
+    remote: '/portal/assets/js/app.js',
+    name: 'JavaScript (Theme Toggle Functionality)'
   }
 ];
 
