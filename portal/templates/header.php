@@ -107,7 +107,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="assets/css/style.css?v=20260126" rel="stylesheet">
+    <link href="assets/css/style.css?v=20260126b" rel="stylesheet">
 
     <?php if (isset($extra_css)): ?>
     <?php echo $extra_css; ?>
