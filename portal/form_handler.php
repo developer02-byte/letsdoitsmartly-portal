@@ -43,10 +43,14 @@ function saveDraft() {
     $submission_id = intval($_POST['submission_id'] ?? 0);
     $user_id = $_SESSION['user_id'];
 
+    // Get primary contact person data (first contact)
+    $contact_persons = $_POST['contact_persons'] ?? [];
+    $primary_contact = $contact_persons[0] ?? [];
+
     // Sanitize and validate basic fields
-    $client_email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
-    $client_name = sanitize($_POST['business_name'] ?? '');
-    $client_phone = sanitize($_POST['phone'] ?? '');
+    $client_email = filter_var($primary_contact['email'] ?? '', FILTER_SANITIZE_EMAIL);
+    $client_name = sanitize($primary_contact['name'] ?? '');
+    $client_phone = sanitize($primary_contact['phone'] ?? '');
 
     // Encode all form data as JSON
     $form_data = json_encode($_POST, JSON_UNESCAPED_UNICODE);
@@ -101,8 +105,15 @@ function submitQuestionnaire() {
     $submission_id = intval($_POST['submission_id'] ?? 0);
     $user_id = $_SESSION['user_id'];
 
+    // Validate contact persons array
+    $contact_persons = $_POST['contact_persons'] ?? [];
+    if (empty($contact_persons) || empty($contact_persons[0]['name']) || empty($contact_persons[0]['email'])) {
+        header('Location: form.php?error=' . urlencode('At least one contact person with name and email is required'));
+        exit;
+    }
+
     // Validate required fields
-    $required_fields = ['business_name', 'contact_person', 'email', 'success_definition', 'primary_cta'];
+    $required_fields = ['business_name', 'success_definition', 'primary_cta'];
     $missing_fields = [];
 
     foreach ($required_fields as $field) {
@@ -116,15 +127,18 @@ function submitQuestionnaire() {
         exit;
     }
 
+    // Get primary contact person data (first contact)
+    $primary_contact = $contact_persons[0];
+
     // Sanitize and validate
-    $client_email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+    $client_email = filter_var($primary_contact['email'], FILTER_VALIDATE_EMAIL);
     if (!$client_email) {
-        header('Location: form.php?error=' . urlencode('Invalid email address'));
+        header('Location: form.php?error=' . urlencode('Invalid email address for primary contact person'));
         exit;
     }
 
-    $client_name = sanitize($_POST['business_name']);
-    $client_phone = sanitize($_POST['phone'] ?? '');
+    $client_name = sanitize($primary_contact['name']);
+    $client_phone = sanitize($primary_contact['phone'] ?? '');
 
     // Encode all form data as JSON
     $form_data = json_encode($_POST, JSON_UNESCAPED_UNICODE);

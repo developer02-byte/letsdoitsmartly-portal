@@ -271,6 +271,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile Sidebar Toggle
     initMobileSidebar();
+
+    // Handle Primary Purpose and Secondary Purpose interaction
+    initPrimarySecondaryPurpose();
+
+    // Initialize Multi-Select Dropdowns
+    initMultiSelectDropdowns();
 });
 
 // Mobile Sidebar Functions
@@ -341,203 +347,148 @@ function closeSidebar() {
     document.body.style.overflow = '';
 }
 
+// Primary and Secondary Purpose Interaction
+function initPrimarySecondaryPurpose() {
+    const primaryRadios = document.querySelectorAll('input[name="primary_purpose"]');
 
-// ===== Theme Management =====
-const Theme = {
-    LIGHT: 'light',
-    DARK: 'dark',
-    STORAGE_KEY: 'theme-preference'
-};
+    if (primaryRadios.length === 0) return;
 
-// Initialize theme on page load
-function initTheme() {
-    const html = document.documentElement;
+    // Function to update secondary checkboxes based on selected primary radio in same row
+    function updateSecondaryCheckboxes() {
+        const secondaryCheckboxes = document.querySelectorAll('input[name="secondary_purpose[]"]');
 
-    // Check if theme was already initialized by blocking script in header
-    const alreadyInitialized = html.getAttribute('data-theme-initialized') === 'true';
+        // First, enable all secondary checkboxes and remove disabled styling
+        secondaryCheckboxes.forEach(checkbox => {
+            checkbox.disabled = false;
 
-    if (!alreadyInitialized) {
-        // Fallback: apply theme if blocking script didn't run
-        const savedTheme = localStorage.getItem(Theme.STORAGE_KEY);
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = savedTheme || (systemPrefersDark ? Theme.DARK : Theme.LIGHT);
+            // Remove disabled class from parent cell
+            const parentCell = checkbox.closest('td');
+            if (parentCell) parentCell.classList.remove('disabled-option');
+        });
 
-        html.classList.add('no-transition');
-        setTheme(theme, false);
+        // Now, for each primary radio that is checked, disable its corresponding secondary checkbox
+        primaryRadios.forEach(radio => {
+            if (radio.checked) {
+                // Find the secondary checkbox in the same row
+                const row = radio.closest('tr');
+                if (row) {
+                    const secondaryCheckbox = row.querySelector('input[name="secondary_purpose[]"]');
+                    if (secondaryCheckbox) {
+                        // Disable the secondary checkbox in this row
+                        secondaryCheckbox.disabled = true;
+                        secondaryCheckbox.checked = false;
 
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                html.classList.remove('no-transition');
-            });
+                        // Add disabled class to parent cell for visual feedback
+                        const parentCell = secondaryCheckbox.closest('td');
+                        if (parentCell) parentCell.classList.add('disabled-option');
+                    }
+                }
+            }
         });
     }
 
-    // Update theme toggle button to match current theme
-    updateThemeToggleButton();
+    // Add event listeners to all primary radio buttons
+    primaryRadios.forEach(radio => {
+        radio.addEventListener('change', updateSecondaryCheckboxes);
+    });
 
-    // Setup theme toggle button
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-    }
+    // Run on page load to handle any pre-selected values
+    updateSecondaryCheckboxes();
+}
 
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem(Theme.STORAGE_KEY)) {
-            setTheme(e.matches ? Theme.DARK : Theme.LIGHT);
-        }
+// Multi-Select Dropdown Functionality
+function initMultiSelectDropdowns() {
+    const dropdowns = document.querySelectorAll('.multi-select-dropdown');
+
+    dropdowns.forEach(dropdown => {
+        const selected = dropdown.querySelector('.dropdown-selected');
+        const optionsContainer = dropdown.querySelector('.dropdown-options');
+        const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+
+        if (!selected || !optionsContainer) return;
+
+        // Toggle dropdown on click
+        selected.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            // Close other dropdowns
+            document.querySelectorAll('.multi-select-dropdown .dropdown-options').forEach(opt => {
+                if (opt !== optionsContainer) {
+                    opt.classList.remove('show');
+                }
+            });
+            document.querySelectorAll('.multi-select-dropdown .dropdown-selected').forEach(sel => {
+                if (sel !== selected) {
+                    sel.classList.remove('active');
+                }
+            });
+
+            // Toggle current dropdown
+            optionsContainer.classList.toggle('show');
+            selected.classList.toggle('active');
+        });
+
+        // Update selected display when checkboxes change
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function(e) {
+                e.stopPropagation();
+                updateSelectedDisplay(dropdown);
+            });
+        });
+
+        // Prevent dropdown from closing when clicking inside options
+        optionsContainer.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Initialize display
+        updateSelectedDisplay(dropdown);
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.multi-select-dropdown .dropdown-options').forEach(opt => {
+            opt.classList.remove('show');
+        });
+        document.querySelectorAll('.multi-select-dropdown .dropdown-selected').forEach(sel => {
+            sel.classList.remove('active');
+        });
     });
 }
 
-// Set theme
-function setTheme(theme, savePreference = true) {
-    const html = document.documentElement;
+function updateSelectedDisplay(dropdown) {
+    const selected = dropdown.querySelector('.dropdown-selected');
+    const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]:checked');
 
-    // Apply theme changes immediately and synchronously to prevent flicker
-    if (theme === Theme.DARK) {
-        html.setAttribute('data-theme', 'dark');
+    // Remove existing content
+    const existingItems = selected.querySelector('.selected-items');
+    const existingPlaceholder = selected.querySelector('.placeholder');
+
+    if (existingItems) existingItems.remove();
+    if (existingPlaceholder) existingPlaceholder.remove();
+
+    // Get the chevron icon
+    const chevron = selected.querySelector('i');
+
+    if (checkboxes.length > 0) {
+        // Create container for selected items
+        const itemsContainer = document.createElement('div');
+        itemsContainer.className = 'selected-items';
+
+        checkboxes.forEach(checkbox => {
+            const tag = document.createElement('span');
+            tag.className = 'selected-tag';
+            tag.textContent = checkbox.nextElementSibling.textContent;
+            itemsContainer.appendChild(tag);
+        });
+
+        // Insert before chevron
+        selected.insertBefore(itemsContainer, chevron);
     } else {
-        html.removeAttribute('data-theme');
-    }
-
-    // Update theme toggle button
-    updateThemeToggleButton();
-
-    if (savePreference) {
-        localStorage.setItem(Theme.STORAGE_KEY, theme);
+        // Show placeholder
+        const placeholder = document.createElement('span');
+        placeholder.className = 'placeholder';
+        placeholder.textContent = 'Select age ranges';
+        selected.insertBefore(placeholder, chevron);
     }
 }
-
-// Update theme toggle button UI to match current theme
-function updateThemeToggleButton() {
-    const currentTheme = getCurrentTheme();
-    const themeIcon = document.getElementById('themeIcon');
-    const themeToggle = document.getElementById('themeToggle');
-
-    if (currentTheme === Theme.DARK) {
-        if (themeIcon) {
-            themeIcon.className = 'bi bi-sun-fill';
-        }
-        if (themeToggle) {
-            const span = themeToggle.querySelector('span');
-            if (span) {
-                span.textContent = 'Light';
-            }
-        }
-    } else {
-        if (themeIcon) {
-            themeIcon.className = 'bi bi-moon-fill';
-        }
-        if (themeToggle) {
-            const span = themeToggle.querySelector('span');
-            if (span) {
-                span.textContent = 'Dark';
-            }
-        }
-    }
-}
-
-// Toggle theme
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? Theme.LIGHT : Theme.DARK;
-    setTheme(newTheme);
-}
-
-// Get current theme
-function getCurrentTheme() {
-    return document.documentElement.getAttribute('data-theme') === 'dark' ? Theme.DARK : Theme.LIGHT;
-}
-
-// Initialize theme as soon as possible
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTheme);
-} else {
-    initTheme();
-}
-
-// ===== Form Conditional Logic =====
-
-// CMS Content Management conditional fields
-document.addEventListener('DOMContentLoaded', function() {
-    const cmsYes = document.getElementById('cms_yes');
-    const cmsNo = document.getElementById('cms_no');
-    const contentTypesSection = document.getElementById('cms_content_types_section');
-    const cmsSolutionSection = document.getElementById('cms_solution_section');
-
-    if (cmsYes && cmsNo && contentTypesSection && cmsSolutionSection) {
-        function toggleCMSFields() {
-            if (cmsYes.checked) {
-                contentTypesSection.style.display = 'block';
-                cmsSolutionSection.style.display = 'block';
-            } else {
-                contentTypesSection.style.display = 'none';
-                cmsSolutionSection.style.display = 'none';
-            }
-        }
-
-        // Add event listeners
-        cmsYes.addEventListener('change', toggleCMSFields);
-        cmsNo.addEventListener('change', toggleCMSFields);
-
-        // Initialize on page load
-        toggleCMSFields();
-    }
-
-    // Domain owned conditional field
-    const domYes = document.getElementById('dom_yes');
-    const domNo = document.getElementById('dom_no');
-    const domainNameSection = document.getElementById('domain_name_section');
-
-    if (domYes && domNo && domainNameSection) {
-        function toggleDomainNameField() {
-            if (domYes.checked) {
-                domainNameSection.style.display = 'block';
-            } else {
-                domainNameSection.style.display = 'none';
-            }
-        }
-
-        domYes.addEventListener('change', toggleDomainNameField);
-        domNo.addEventListener('change', toggleDomainNameField);
-        toggleDomainNameField();
-    }
-
-    // Hosting account exists conditional field
-    const hostYes = document.getElementById('host_yes');
-    const hostNo = document.getElementById('host_no');
-    const hostingProviderSection = document.getElementById('hosting_provider_section');
-
-    if (hostYes && hostNo && hostingProviderSection) {
-        function toggleHostingProviderField() {
-            if (hostYes.checked) {
-                hostingProviderSection.style.display = 'block';
-            } else {
-                hostingProviderSection.style.display = 'none';
-            }
-        }
-
-        hostYes.addEventListener('change', toggleHostingProviderField);
-        hostNo.addEventListener('change', toggleHostingProviderField);
-        toggleHostingProviderField();
-    }
-
-    // Webmail preference Other conditional field
-    const webmailRc = document.getElementById('webmail_rc');
-    const webmailOther = document.getElementById('webmail_other');
-    const webmailOtherField = document.getElementById('webmail_other_field');
-
-    if (webmailRc && webmailOther && webmailOtherField) {
-        function toggleWebmailOtherField() {
-            if (webmailOther.checked) {
-                webmailOtherField.style.display = 'block';
-            } else {
-                webmailOtherField.style.display = 'none';
-            }
-        }
-
-        webmailRc.addEventListener('change', toggleWebmailOtherField);
-        webmailOther.addEventListener('change', toggleWebmailOtherField);
-        toggleWebmailOtherField();
-    }
-});

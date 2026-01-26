@@ -97,29 +97,51 @@ if ($submission_id > 0) {
                     </h3>
 
                     <div class="row mb-4">
-                        <div class="col-12 col-md-6 mb-3">
+                        <div class="col-12 mb-3">
                             <label for="business_name" class="form-label required">Business/Organization Name</label>
                             <input type="text" class="form-control" id="business_name" name="business_name"
                                    value="<?php echo htmlspecialchars($draft_data['business_name'] ?? ''); ?>" required>
                         </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="contact_person" class="form-label required">Contact Person</label>
-                            <input type="text" class="form-control" id="contact_person" name="contact_person"
-                                   value="<?php echo htmlspecialchars($draft_data['contact_person'] ?? ''); ?>" required>
-                        </div>
                     </div>
 
-                    <div class="row mb-4">
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="email" class="form-label required">Email</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                   value="<?php echo htmlspecialchars($draft_data['email'] ?? ''); ?>" required>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="phone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="phone" name="phone"
-                                   value="<?php echo htmlspecialchars($draft_data['phone'] ?? ''); ?>">
-                        </div>
+                    <h5 class="mb-3">Contact Persons</h5>
+                    <p class="text-muted small">Add primary and additional contact persons (you can add more)</p>
+
+                    <div class="table-responsive mb-3">
+                        <table class="table table-bordered" id="contactPersonsTable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">Contact Person <span class="text-danger">*</span></th>
+                                    <th style="width: 22%;">Email <span class="text-danger">*</span></th>
+                                    <th style="width: 18%;">Phone</th>
+                                    <th style="width: 30%;">Scope</th>
+                                    <th style="width: 10%;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactPersonsTableBody">
+                                <?php
+                                $contactPersons = $draft_data['contact_persons'] ?? [['name' => '', 'email' => '', 'phone' => '', 'scope' => '']];
+                                for ($i = 0; $i < count($contactPersons); $i++):
+                                ?>
+                                <tr data-index="<?php echo $i; ?>">
+                                    <td><input type="text" class="form-control form-control-sm" name="contact_persons[<?php echo $i; ?>][name]" value="<?php echo htmlspecialchars($contactPersons[$i]['name'] ?? ''); ?>" required></td>
+                                    <td><input type="email" class="form-control form-control-sm" name="contact_persons[<?php echo $i; ?>][email]" value="<?php echo htmlspecialchars($contactPersons[$i]['email'] ?? ''); ?>" required></td>
+                                    <td><input type="tel" class="form-control form-control-sm" name="contact_persons[<?php echo $i; ?>][phone]" value="<?php echo htmlspecialchars($contactPersons[$i]['phone'] ?? ''); ?>"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="contact_persons[<?php echo $i; ?>][scope]" value="<?php echo htmlspecialchars($contactPersons[$i]['scope'] ?? ''); ?>" placeholder="e.g., CEO, Marketing Lead"></td>
+                                    <td class="text-center align-middle">
+                                        <button type="button" class="btn btn-sm btn-outline-danger remove-contact-person-btn" title="Remove contact person">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php endfor; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end mb-4">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addContactPersonBtn">
+                            <i class="bi bi-plus-circle me-1"></i> Add Contact Person
+                        </button>
                     </div>
 
                     <hr class="my-4">
@@ -257,38 +279,6 @@ if ($submission_id > 0) {
                         </table>
                     </div>
 
-                    <hr class="my-4">
-                    <h5 class="mb-3">Success Metrics</h5>
-
-                    <div class="mb-3">
-                        <label for="success_definition" class="form-label required">What does success look like for this website?</label>
-                        <textarea class="form-control" id="success_definition" name="success_definition" rows="3" required><?php echo htmlspecialchars($draft_data['success_definition'] ?? ''); ?></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="key_problems" class="form-label">Key problems this website should solve</label>
-                        <textarea class="form-control" id="key_problems" name="key_problems" rows="3"><?php echo htmlspecialchars($draft_data['key_problems'] ?? ''); ?></textarea>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="primary_cta" class="form-label required">Primary Call-to-Action (the ONE thing visitors should do)</label>
-                            <select class="form-select" id="primary_cta" name="primary_cta" required>
-                                <option value="">-- Select Primary CTA --</option>
-                                <option value="Call us">Call us</option>
-                                <option value="Fill contact form">Fill contact form</option>
-                                <option value="Request quote">Request quote</option>
-                                <option value="Book appointment">Book appointment</option>
-                                <option value="View portfolio">View portfolio</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <label for="primary_cta_other" class="form-label">If Other CTA, please specify</label>
-                            <input type="text" class="form-control" id="primary_cta_other" name="primary_cta_other"
-                                   value="<?php echo htmlspecialchars($draft_data['primary_cta_other'] ?? ''); ?>">
-                        </div>
-                    </div>
                 </div>
 
                 <!-- ==================== SECTION 3: TARGET AUDIENCE ==================== -->
@@ -332,8 +322,34 @@ if ($submission_id > 0) {
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label for="age_range" class="form-label">Age Range (if relevant)</label>
-                            <input type="text" class="form-control" id="age_range" name="age_range"
-                                   value="<?php echo htmlspecialchars($draft_data['age_range'] ?? ''); ?>">
+                            <div class="multi-select-dropdown" id="ageRangeDropdown">
+                                <div class="dropdown-selected" id="ageRangeSelected">
+                                    <span class="placeholder">Select age ranges</span>
+                                    <i class="bi bi-chevron-down"></i>
+                                </div>
+                                <div class="dropdown-options" id="ageRangeOptions">
+                                    <label class="dropdown-option">
+                                        <input type="checkbox" name="age_range[]" value="18-24">
+                                        <span>18–24</span>
+                                    </label>
+                                    <label class="dropdown-option">
+                                        <input type="checkbox" name="age_range[]" value="25-34">
+                                        <span>25–34</span>
+                                    </label>
+                                    <label class="dropdown-option">
+                                        <input type="checkbox" name="age_range[]" value="35-44">
+                                        <span>35–44</span>
+                                    </label>
+                                    <label class="dropdown-option">
+                                        <input type="checkbox" name="age_range[]" value="45-54">
+                                        <span>45–54</span>
+                                    </label>
+                                    <label class="dropdown-option">
+                                        <input type="checkbox" name="age_range[]" value="55+">
+                                        <span>55+</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -2290,6 +2306,50 @@ function setupAutoSave() {
 // Start auto-save on any input change
 document.querySelectorAll('input, textarea, select').forEach(element => {
     element.addEventListener('change', setupAutoSave);
+});
+
+// ===== Dynamic Contact Person Rows =====
+let contactPersonIndex = <?php echo count($contactPersons ?? [['name' => '', 'email' => '', 'phone' => '', 'scope' => '']]); ?>;
+
+// Add contact person row
+document.getElementById('addContactPersonBtn').addEventListener('click', function() {
+    const tbody = document.getElementById('contactPersonsTableBody');
+    const newRow = document.createElement('tr');
+    newRow.setAttribute('data-index', contactPersonIndex);
+    newRow.innerHTML = `
+        <td><input type="text" class="form-control form-control-sm" name="contact_persons[${contactPersonIndex}][name]" required></td>
+        <td><input type="email" class="form-control form-control-sm" name="contact_persons[${contactPersonIndex}][email]" required></td>
+        <td><input type="tel" class="form-control form-control-sm" name="contact_persons[${contactPersonIndex}][phone]"></td>
+        <td><input type="text" class="form-control form-control-sm" name="contact_persons[${contactPersonIndex}][scope]" placeholder="e.g., CEO, Marketing Lead"></td>
+        <td class="text-center align-middle">
+            <button type="button" class="btn btn-sm btn-outline-danger remove-contact-person-btn" title="Remove contact person">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    `;
+    tbody.appendChild(newRow);
+    contactPersonIndex++;
+
+    // Setup auto-save for new inputs
+    newRow.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('change', setupAutoSave);
+    });
+});
+
+// Remove contact person row (event delegation)
+document.getElementById('contactPersonsTableBody').addEventListener('click', function(e) {
+    const removeBtn = e.target.closest('.remove-contact-person-btn');
+    if (removeBtn) {
+        const tbody = document.getElementById('contactPersonsTableBody');
+        const rowCount = tbody.querySelectorAll('tr').length;
+
+        // Keep at least 1 row
+        if (rowCount > 1) {
+            removeBtn.closest('tr').remove();
+        } else {
+            showToast('warning', 'You must keep at least one contact person');
+        }
+    }
 });
 
 // ===== Dynamic Competitor Rows =====
