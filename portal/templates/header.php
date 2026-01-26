@@ -107,13 +107,13 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="assets/css/style.css?v=20260126c" rel="stylesheet">
+    <link href="assets/css/style.css?v=20260126d" rel="stylesheet">
 
     <?php if (isset($extra_css)): ?>
     <?php echo $extra_css; ?>
     <?php endif; ?>
 </head>
-<body>
+<body class="portal-page">
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
         <i class="bi bi-list"></i>
     </button>

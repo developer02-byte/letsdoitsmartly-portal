@@ -1267,6 +1267,24 @@ body {
     color: var(--sidebar-text);
 }
 
+/* ===== Dark Mode Body and Main Content ===== */
+[data-theme="dark"] body {
+    background: var(--bg-body) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] html {
+    background: var(--bg-body) !important;
+}
+
+[data-theme="dark"] .wrapper {
+    background: var(--bg-body) !important;
+}
+
+[data-theme="dark"] .main-content {
+    background: var(--bg-body) !important;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 991.98px) {
     .sidebar-toggle {
@@ -2722,8 +2740,8 @@ body,
 
 /* ===== Questionnaire Form Styles ===== */
 
-/* Standalone public form styling */
-body {
+/* Standalone public form styling - Only applies when NOT in portal */
+body:not(.portal-page) {
     background: linear-gradient(135deg, #e8eef3 0%, #d4dfe9 100%);
     min-height: 100vh;
     color: #1e293b;
