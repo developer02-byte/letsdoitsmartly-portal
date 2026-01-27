@@ -32,7 +32,7 @@ if ($submission_id > 0) {
     <title><?php echo $page_title; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/style.css?v=3.3.0">
 </head>
 <body>
 <div class="container-fluid p-0">
@@ -484,23 +484,6 @@ if ($submission_id > 0) {
                             <i class="bi bi-plus-circle me-1"></i> Add Additional Page
                         </button>
                     </div>
-
-                    <hr class="my-4">
-                    <h5 class="mb-3">Total Page Count</h5>
-                    <div class="row">
-                        <div class="col-12 col-md-4 mb-3">
-                            <label for="standard_pages_count" class="form-label">Standard pages (from above)</label>
-                            <input type="number" class="form-control" id="standard_pages_count" name="page_count[standard]" min="0" readonly>
-                        </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <label for="additional_pages_count" class="form-label">Additional pages</label>
-                            <input type="number" class="form-control" id="additional_pages_count" name="page_count[additional]" min="0" readonly>
-                        </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <label for="total_pages_count" class="form-label"><strong>TOTAL</strong></label>
-                            <input type="number" class="form-control fw-bold" id="total_pages_count" name="page_count[total]" min="0" readonly>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- ==================== SECTION 5: DESIGN PREFERENCES ==================== -->
@@ -591,6 +574,11 @@ if ($submission_id > 0) {
                                     <label class="form-check-label" for="logo_need">Need one</label>
                                 </div>
                             </div>
+                            <div class="mb-2">
+                                <label for="logo_upload" class="form-label small">Upload Logo (if available)</label>
+                                <input type="file" class="form-control form-control-sm" id="logo_upload" name="brand_assets[logo][file]" accept="image/*,.ai,.svg,.eps,.pdf">
+                                <small class="text-muted">Accepted: PNG, JPG, SVG, AI, EPS, PDF</small>
+                            </div>
                             <div>
                                 <small>Format:</small>
                                 <div class="d-flex flex-wrap gap-2 mt-1">
@@ -621,7 +609,20 @@ if ($submission_id > 0) {
                                     <label class="form-check-label" for="colors_no">No</label>
                                 </div>
                             </div>
-                            <input type="text" class="form-control form-control-sm" name="brand_assets[colors][details]" placeholder="Hex codes or describe colors">
+                            <div class="mb-2">
+                                <label for="primary_color" class="form-label small">Primary Color</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <input type="color" class="form-control form-control-color" id="primary_color_picker" name="brand_assets[colors][primary_picker]" value="#0D6EFD" style="width: 60px; height: 38px;">
+                                    <input type="text" class="form-control form-control-sm" id="primary_color_hex" name="brand_assets[colors][primary]" placeholder="#HEX or color name">
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label for="secondary_color" class="form-label small">Secondary Color (Optional)</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <input type="color" class="form-control form-control-color" id="secondary_color_picker" name="brand_assets[colors][secondary_picker]" value="#6C757D" style="width: 60px; height: 38px;">
+                                    <input type="text" class="form-control form-control-sm" id="secondary_color_hex" name="brand_assets[colors][secondary]" placeholder="#HEX or color name">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -638,7 +639,13 @@ if ($submission_id > 0) {
                                     <label class="form-check-label" for="fonts_no">No</label>
                                 </div>
                             </div>
-                            <input type="text" class="form-control form-control-sm" name="brand_assets[fonts][details]" placeholder="Font names">
+                            <input type="text" class="form-control form-control-sm" name="brand_assets[fonts][details]" placeholder="Font names" id="fonts_details">
+                            <div class="mt-2">
+                                <label for="fonts_upload" class="form-label small">Upload Font Files (if available)</label>
+                                <input type="file" class="form-control form-control-sm" id="fonts_upload"
+                                       name="brand_assets[fonts][files][]" accept=".ttf,.otf,.woff,.woff2" multiple>
+                                <small class="text-muted">Accepted: TTF, OTF, WOFF, WOFF2</small>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Brand Guidelines Document</label>
@@ -672,15 +679,27 @@ if ($submission_id > 0) {
                                     <label class="form-check-label" for="photo_no">No</label>
                                 </div>
                             </div>
+                            <div class="mt-2">
+                                <label for="photography_upload" class="form-label small">Upload Photos (if available)</label>
+                                <input type="file" class="form-control form-control-sm" id="photography_upload"
+                                       name="brand_assets[photography][files][]" accept="image/*,.txt" multiple>
+                                <small class="text-muted">Accepted: JPG, PNG, WEBP. You can select multiple files.</small>
+                            </div>
+                            <div class="mt-2">
+                                <label for="photography_brand" class="form-label small">Photography Brand/Source</label>
+                                <input type="text" class="form-control form-control-sm" id="photography_brand"
+                                       name="brand_assets[photography][brand]" placeholder="e.g., Getty Images, photographer name">
+                            </div>
                             <small class="text-muted">See Section 8 for details</small>
                         </div>
                     </div>
 
-                    <hr class="my-4">
-                    <h5 class="mb-3">Style Preferences (If No References)</h5>
-                    <p class="text-muted small">Only fill this if reference websites section is empty</p>
+                    <div id="stylePreferencesSection">
+                        <hr class="my-4">
+                        <h5 class="mb-3">Style Preferences (If No References)</h5>
+                        <p class="text-muted small">Only fill this if reference websites section is empty</p>
 
-                    <div class="mb-3">
+                        <div class="mb-3">
                         <label class="form-label">Overall Feel</label>
                         <div class="d-flex flex-wrap gap-2">
                             <div class="form-check">
@@ -708,6 +727,150 @@ if ($submission_id > 0) {
                                 <label class="form-check-label" for="feel_playful">Playful</label>
                             </div>
                         </div>
+
+                        <!-- Style Preview Cards Container -->
+                        <div id="stylePreviewContainer" class="mt-3 mb-3">
+                            <!-- Modern Preview -->
+                            <div class="style-preview-card" id="preview_modern" style="display: none;">
+                                <div class="preview-header">Modern</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout modern-layout">
+                                        <div class="preview-nav"></div>
+                                        <div class="preview-hero"></div>
+                                        <div class="preview-cards">
+                                            <div class="preview-card"></div>
+                                            <div class="preview-card"></div>
+                                            <div class="preview-card"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #2563eb;"></span>
+                                        <span class="color-dot" style="background: #f8fafc;"></span>
+                                        <span class="color-dot" style="background: #0f172a;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="font-family: system-ui, -apple-system, sans-serif;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Classic Preview -->
+                            <div class="style-preview-card" id="preview_classic" style="display: none;">
+                                <div class="preview-header">Classic</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout classic-layout">
+                                        <div class="preview-nav"></div>
+                                        <div class="preview-banner"></div>
+                                        <div class="preview-columns">
+                                            <div class="preview-col"></div>
+                                            <div class="preview-col"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #1e3a8a;"></span>
+                                        <span class="color-dot" style="background: #fef3c7;"></span>
+                                        <span class="color-dot" style="background: #78350f;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="font-family: Georgia, serif;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Minimal Preview -->
+                            <div class="style-preview-card" id="preview_minimal" style="display: none;">
+                                <div class="preview-header">Minimal</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout minimal-layout">
+                                        <div class="preview-nav-minimal"></div>
+                                        <div class="preview-hero-minimal"></div>
+                                        <div class="preview-grid">
+                                            <div class="preview-item"></div>
+                                            <div class="preview-item"></div>
+                                            <div class="preview-item"></div>
+                                            <div class="preview-item"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #ffffff; border: 1px solid #e5e7eb;"></span>
+                                        <span class="color-dot" style="background: #000000;"></span>
+                                        <span class="color-dot" style="background: #f3f4f6;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="font-family: 'Helvetica Neue', sans-serif;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bold Preview -->
+                            <div class="style-preview-card" id="preview_bold" style="display: none;">
+                                <div class="preview-header">Bold</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout bold-layout">
+                                        <div class="preview-nav-bold"></div>
+                                        <div class="preview-hero-bold"></div>
+                                        <div class="preview-blocks">
+                                            <div class="preview-block"></div>
+                                            <div class="preview-block"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #dc2626;"></span>
+                                        <span class="color-dot" style="background: #fbbf24;"></span>
+                                        <span class="color-dot" style="background: #000000;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="font-family: 'Arial Black', sans-serif; font-weight: 900;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Professional Preview -->
+                            <div class="style-preview-card" id="preview_prof" style="display: none;">
+                                <div class="preview-header">Professional</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout professional-layout">
+                                        <div class="preview-nav-pro"></div>
+                                        <div class="preview-content-pro">
+                                            <div class="preview-sidebar-pro"></div>
+                                            <div class="preview-main-pro"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #1e40af;"></span>
+                                        <span class="color-dot" style="background: #f9fafb;"></span>
+                                        <span class="color-dot" style="background: #374151;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="font-family: 'Segoe UI', sans-serif;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Playful Preview -->
+                            <div class="style-preview-card" id="preview_playful" style="display: none;">
+                                <div class="preview-header">Playful</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout playful-layout">
+                                        <div class="preview-nav-play"></div>
+                                        <div class="preview-hero-play"></div>
+                                        <div class="preview-cards-play">
+                                            <div class="preview-card-play"></div>
+                                            <div class="preview-card-play"></div>
+                                            <div class="preview-card-play"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #ec4899;"></span>
+                                        <span class="color-dot" style="background: #fde047;"></span>
+                                        <span class="color-dot" style="background: #06b6d4;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="font-family: 'Comic Sans MS', cursive;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -730,25 +893,168 @@ if ($submission_id > 0) {
                                 <label class="form-check-label" for="mood_neutral">Neutral/Muted</label>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Layout</label>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="style_preferences[layout]" value="Clean with lots of whitespace" id="layout_clean">
-                                <label class="form-check-label" for="layout_clean">Clean with lots of whitespace</label>
+                        <!-- Color Mood Preview Cards Container -->
+                        <div id="colorMoodPreviewContainer" class="mt-3 mb-3">
+                            <!-- Light/Bright Preview -->
+                            <div class="style-preview-card" id="preview_mood_light" style="display: none;">
+                                <div class="preview-header">Light/Bright</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout light-layout">
+                                        <div class="preview-nav-light"></div>
+                                        <div class="preview-content-light">
+                                            <div class="preview-card-light"></div>
+                                            <div class="preview-card-light"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #ffffff; border: 1px solid #e5e7eb;"></span>
+                                        <span class="color-dot" style="background: #fef3c7;"></span>
+                                        <span class="color-dot" style="background: #dbeafe;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="color: #1e293b;">Aa</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="style_preferences[layout]" value="Dense with information" id="layout_dense">
-                                <label class="form-check-label" for="layout_dense">Dense with information</label>
+
+                            <!-- Dark Preview -->
+                            <div class="style-preview-card" id="preview_mood_dark" style="display: none;">
+                                <div class="preview-header">Dark</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout dark-layout">
+                                        <div class="preview-nav-dark"></div>
+                                        <div class="preview-content-dark">
+                                            <div class="preview-card-dark"></div>
+                                            <div class="preview-card-dark"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #0f172a;"></span>
+                                        <span class="color-dot" style="background: #1e293b;"></span>
+                                        <span class="color-dot" style="background: #334155;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="color: #f1f5f9;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Colorful Preview -->
+                            <div class="style-preview-card" id="preview_mood_colorful" style="display: none;">
+                                <div class="preview-header">Colorful</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout colorful-layout">
+                                        <div class="preview-nav-colorful"></div>
+                                        <div class="preview-content-colorful">
+                                            <div class="preview-card-colorful"></div>
+                                            <div class="preview-card-colorful"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #ef4444;"></span>
+                                        <span class="color-dot" style="background: #3b82f6;"></span>
+                                        <span class="color-dot" style="background: #10b981;"></span>
+                                        <span class="color-dot" style="background: #f59e0b;"></span>
+                                        <span class="color-dot" style="background: #8b5cf6;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="background: linear-gradient(90deg, #ef4444, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Neutral/Muted Preview -->
+                            <div class="style-preview-card" id="preview_mood_neutral" style="display: none;">
+                                <div class="preview-header">Neutral/Muted</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout neutral-layout">
+                                        <div class="preview-nav-neutral"></div>
+                                        <div class="preview-content-neutral">
+                                            <div class="preview-card-neutral"></div>
+                                            <div class="preview-card-neutral"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #f5f5f4;"></span>
+                                        <span class="color-dot" style="background: #d6d3d1;"></span>
+                                        <span class="color-dot" style="background: #78716c;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="color: #57534e;">Aa</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="industry_expectations" class="form-label">Industry Expectations</label>
-                        <textarea class="form-control" id="industry_expectations" name="style_preferences[industry_expectations]" rows="2" placeholder="What do competitors' sites look like? What do customers expect?"></textarea>
+                        <label class="form-label">Layout</label>
+                        <div>
+                            <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="style_preferences[layout]" value="Clean with lots of whitespace" id="layout_clean">
+                                                <label class="form-check-label" for="layout_clean">Clean with lots of whitespace</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="style_preferences[layout]" value="Dense with information" id="layout_dense">
+                                                <label class="form-check-label" for="layout_dense">Dense with information</label>
+                                            </div>
+                                        </div>
+
+                        <!-- Layout Preview Cards Container -->
+                        <div id="layoutPreviewContainer" class="mt-3 mb-3">
+                            <!-- Clean with Whitespace Preview -->
+                            <div class="style-preview-card" id="preview_layout_clean" style="display: none;">
+                                <div class="preview-header">Clean with Whitespace</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout clean-ws-layout">
+                                        <div class="preview-nav-clean"></div>
+                                        <div class="preview-spacer"></div>
+                                        <div class="preview-content-clean">
+                                            <div class="preview-element-clean"></div>
+                                        </div>
+                                        <div class="preview-spacer"></div>
+                                        <div class="preview-element-clean"></div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #ffffff; border: 1px solid #e5e7eb;"></span>
+                                        <span class="color-dot" style="background: #f8fafc;"></span>
+                                        <span class="color-dot" style="background: #3b82f6;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="letter-spacing: 0.05em;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dense with Information Preview -->
+                            <div class="style-preview-card" id="preview_layout_dense" style="display: none;">
+                                <div class="preview-header">Dense Layout</div>
+                                <div class="preview-content">
+                                    <div class="preview-layout dense-layout">
+                                        <div class="preview-nav-dense"></div>
+                                        <div class="preview-grid-dense">
+                                            <div class="preview-item-dense"></div>
+                                            <div class="preview-item-dense"></div>
+                                            <div class="preview-item-dense"></div>
+                                            <div class="preview-item-dense"></div>
+                                            <div class="preview-item-dense"></div>
+                                            <div class="preview-item-dense"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-colors">
+                                        <span class="color-dot" style="background: #1e293b;"></span>
+                                        <span class="color-dot" style="background: #f1f5f9;"></span>
+                                        <span class="color-dot" style="background: #64748b;"></span>
+                                    </div>
+                                    <div class="preview-text">
+                                        <div class="text-sample" style="font-weight: 500; letter-spacing: -0.02em;">Aa</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
 
@@ -771,13 +1077,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Contact Form</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[contact_form][include]" value="yes" id="cf_yes">
-                                            <label class="form-check-label" for="cf_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[contact_form][include]" value="no" id="cf_no">
-                                            <label class="form-check-label" for="cf_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[contact_form][include]" value="yes" id="cf_yes">
+                                                <label class="form-check-label" for="cf_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[contact_form][include]" value="no" id="cf_no">
+                                                <label class="form-check-label" for="cf_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
@@ -805,13 +1113,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Social Media Links</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[social_media][include]" value="yes" id="sm_yes">
-                                            <label class="form-check-label" for="sm_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[social_media][include]" value="no" id="sm_no">
-                                            <label class="form-check-label" for="sm_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[social_media][include]" value="yes" id="sm_yes">
+                                                <label class="form-check-label" for="sm_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[social_media][include]" value="no" id="sm_no">
+                                                <label class="form-check-label" for="sm_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
@@ -835,13 +1145,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Newsletter Signup</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[newsletter][include]" value="yes" id="news_yes">
-                                            <label class="form-check-label" for="news_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[newsletter][include]" value="no" id="news_no">
-                                            <label class="form-check-label" for="news_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[newsletter][include]" value="yes" id="news_yes">
+                                                <label class="form-check-label" for="news_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[newsletter][include]" value="no" id="news_no">
+                                                <label class="form-check-label" for="news_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
@@ -862,13 +1174,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Google Maps Embed</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[google_maps][include]" value="yes" id="gm_yes">
-                                            <label class="form-check-label" for="gm_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[google_maps][include]" value="no" id="gm_no">
-                                            <label class="form-check-label" for="gm_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[google_maps][include]" value="yes" id="gm_yes">
+                                                <label class="form-check-label" for="gm_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[google_maps][include]" value="no" id="gm_no">
+                                                <label class="form-check-label" for="gm_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" name="features[google_maps][address]" placeholder="Address"></td>
@@ -876,13 +1190,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Image Gallery/Lightbox</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[gallery][include]" value="yes" id="gallery_yes">
-                                            <label class="form-check-label" for="gallery_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[gallery][include]" value="no" id="gallery_no">
-                                            <label class="form-check-label" for="gallery_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[gallery][include]" value="yes" id="gallery_yes">
+                                                <label class="form-check-label" for="gallery_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[gallery][include]" value="no" id="gallery_no">
+                                                <label class="form-check-label" for="gallery_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td></td>
@@ -890,13 +1206,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Video Embeds</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[video][include]" value="yes" id="video_yes">
-                                            <label class="form-check-label" for="video_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[video][include]" value="no" id="video_no">
-                                            <label class="form-check-label" for="video_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[video][include]" value="yes" id="video_yes">
+                                                <label class="form-check-label" for="video_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[video][include]" value="no" id="video_no">
+                                                <label class="form-check-label" for="video_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
@@ -920,13 +1238,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Testimonial Slider</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[testimonial_slider][include]" value="yes" id="testi_yes">
-                                            <label class="form-check-label" for="testi_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[testimonial_slider][include]" value="no" id="testi_no">
-                                            <label class="form-check-label" for="testi_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[testimonial_slider][include]" value="yes" id="testi_yes">
+                                                <label class="form-check-label" for="testi_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[testimonial_slider][include]" value="no" id="testi_no">
+                                                <label class="form-check-label" for="testi_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td></td>
@@ -934,13 +1254,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>FAQ Accordion</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[faq_accordion][include]" value="yes" id="faq_yes">
-                                            <label class="form-check-label" for="faq_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[faq_accordion][include]" value="no" id="faq_no">
-                                            <label class="form-check-label" for="faq_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[faq_accordion][include]" value="yes" id="faq_yes">
+                                                <label class="form-check-label" for="faq_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[faq_accordion][include]" value="no" id="faq_no">
+                                                <label class="form-check-label" for="faq_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td></td>
@@ -948,13 +1270,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Site Search</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[site_search][include]" value="yes" id="search_yes">
-                                            <label class="form-check-label" for="search_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[site_search][include]" value="no" id="search_no">
-                                            <label class="form-check-label" for="search_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[site_search][include]" value="yes" id="search_yes">
+                                                <label class="form-check-label" for="search_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[site_search][include]" value="no" id="search_no">
+                                                <label class="form-check-label" for="search_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td></td>
@@ -962,13 +1286,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Multi-language</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[multi_language][include]" value="yes" id="lang_yes">
-                                            <label class="form-check-label" for="lang_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[multi_language][include]" value="no" id="lang_no">
-                                            <label class="form-check-label" for="lang_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[multi_language][include]" value="yes" id="lang_yes">
+                                                <label class="form-check-label" for="lang_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[multi_language][include]" value="no" id="lang_no">
+                                                <label class="form-check-label" for="lang_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" name="features[multi_language][languages]" placeholder="Languages"></td>
@@ -976,13 +1302,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Live Chat Widget</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[live_chat][include]" value="yes" id="chat_yes">
-                                            <label class="form-check-label" for="chat_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[live_chat][include]" value="no" id="chat_no">
-                                            <label class="form-check-label" for="chat_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[live_chat][include]" value="yes" id="chat_yes">
+                                                <label class="form-check-label" for="chat_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[live_chat][include]" value="no" id="chat_no">
+                                                <label class="form-check-label" for="chat_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" name="features[live_chat][service]" placeholder="Service"></td>
@@ -990,13 +1318,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Booking/Scheduling</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[booking][include]" value="yes" id="book_yes">
-                                            <label class="form-check-label" for="book_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="features[booking][include]" value="no" id="book_no">
-                                            <label class="form-check-label" for="book_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[booking][include]" value="yes" id="book_yes">
+                                                <label class="form-check-label" for="book_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="features[booking][include]" value="no" id="book_no">
+                                                <label class="form-check-label" for="book_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
@@ -1060,16 +1390,16 @@ if ($submission_id > 0) {
 
                     <div class="mb-3">
                         <label class="form-label">CMS Solution</label>
-                        <div>
-                            <div class="form-check">
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cms[solution]" value="Simple PHP admin panel" id="cms_php">
                                 <label class="form-check-label" for="cms_php">Simple PHP admin panel</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cms[solution]" value="WordPress" id="cms_wp">
                                 <label class="form-check-label" for="cms_wp">WordPress (only if explicitly needed)</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cms[solution]" value="None" id="cms_none">
                                 <label class="form-check-label" for="cms_none">None</label>
                             </div>
@@ -1081,16 +1411,16 @@ if ($submission_id > 0) {
 
                     <div class="mb-3">
                         <label class="form-label">Contact form handling</label>
-                        <div>
-                            <div class="form-check">
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="form_handling[method]" value="PHP mail()" id="fh_php">
                                 <label class="form-check-label" for="fh_php">PHP mail()</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="form_handling[method]" value="SMTP service" id="fh_smtp">
                                 <label class="form-check-label" for="fh_smtp">SMTP service (Mailgun, SendGrid, etc.)</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="form_handling[method]" value="Third-party" id="fh_third">
                                 <label class="form-check-label" for="fh_third">Third-party (Formspree, Netlify Forms)</label>
                             </div>
@@ -1099,16 +1429,16 @@ if ($submission_id > 0) {
 
                     <div class="mb-3">
                         <label class="form-label">Form submissions storage</label>
-                        <div>
-                            <div class="form-check">
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="form_handling[storage]" value="Email only" id="fs_email">
                                 <label class="form-check-label" for="fs_email">Email only</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="form_handling[storage]" value="Database + Email" id="fs_db">
                                 <label class="form-check-label" for="fs_db">Database + Email</label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="form_handling[storage]" value="Third-party service" id="fs_third">
                                 <label class="form-check-label" for="fs_third">Third-party service</label>
                             </div>
@@ -1276,23 +1606,27 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Google Analytics</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_analytics][include]" value="yes" id="ga_yes">
-                                            <label class="form-check-label" for="ga_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_analytics][include]" value="no" id="ga_no">
-                                            <label class="form-check-label" for="ga_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_analytics][include]" value="yes" id="ga_yes">
+                                                <label class="form-check-label" for="ga_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_analytics][include]" value="no" id="ga_no">
+                                                <label class="form-check-label" for="ga_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_analytics][account_exists]" value="yes" id="ga_acc_yes">
-                                            <label class="form-check-label" for="ga_acc_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_analytics][account_exists]" value="no" id="ga_acc_no">
-                                            <label class="form-check-label" for="ga_acc_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_analytics][account_exists]" value="yes" id="ga_acc_yes">
+                                                <label class="form-check-label" for="ga_acc_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_analytics][account_exists]" value="no" id="ga_acc_no">
+                                                <label class="form-check-label" for="ga_acc_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" name="integrations[google_analytics][id]" placeholder="ID"></td>
@@ -1300,23 +1634,27 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Google Tag Manager</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_tag_manager][include]" value="yes" id="gtm_yes">
-                                            <label class="form-check-label" for="gtm_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_tag_manager][include]" value="no" id="gtm_no">
-                                            <label class="form-check-label" for="gtm_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_tag_manager][include]" value="yes" id="gtm_yes">
+                                                <label class="form-check-label" for="gtm_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_tag_manager][include]" value="no" id="gtm_no">
+                                                <label class="form-check-label" for="gtm_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_tag_manager][account_exists]" value="yes" id="gtm_acc_yes">
-                                            <label class="form-check-label" for="gtm_acc_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_tag_manager][account_exists]" value="no" id="gtm_acc_no">
-                                            <label class="form-check-label" for="gtm_acc_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_tag_manager][account_exists]" value="yes" id="gtm_acc_yes">
+                                                <label class="form-check-label" for="gtm_acc_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_tag_manager][account_exists]" value="no" id="gtm_acc_no">
+                                                <label class="form-check-label" for="gtm_acc_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" name="integrations[google_tag_manager][id]" placeholder="ID"></td>
@@ -1324,23 +1662,27 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Google Search Console</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_search_console][include]" value="yes" id="gsc_yes">
-                                            <label class="form-check-label" for="gsc_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_search_console][include]" value="no" id="gsc_no">
-                                            <label class="form-check-label" for="gsc_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_search_console][include]" value="yes" id="gsc_yes">
+                                                <label class="form-check-label" for="gsc_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_search_console][include]" value="no" id="gsc_no">
+                                                <label class="form-check-label" for="gsc_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_search_console][account_exists]" value="yes" id="gsc_acc_yes">
-                                            <label class="form-check-label" for="gsc_acc_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[google_search_console][account_exists]" value="no" id="gsc_acc_no">
-                                            <label class="form-check-label" for="gsc_acc_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_search_console][account_exists]" value="yes" id="gsc_acc_yes">
+                                                <label class="form-check-label" for="gsc_acc_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[google_search_console][account_exists]" value="no" id="gsc_acc_no">
+                                                <label class="form-check-label" for="gsc_acc_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td></td>
@@ -1348,23 +1690,27 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Facebook Pixel</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[facebook_pixel][include]" value="yes" id="fbp_yes">
-                                            <label class="form-check-label" for="fbp_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[facebook_pixel][include]" value="no" id="fbp_no">
-                                            <label class="form-check-label" for="fbp_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[facebook_pixel][include]" value="yes" id="fbp_yes">
+                                                <label class="form-check-label" for="fbp_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[facebook_pixel][include]" value="no" id="fbp_no">
+                                                <label class="form-check-label" for="fbp_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[facebook_pixel][account_exists]" value="yes" id="fbp_acc_yes">
-                                            <label class="form-check-label" for="fbp_acc_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[facebook_pixel][account_exists]" value="no" id="fbp_acc_no">
-                                            <label class="form-check-label" for="fbp_acc_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[facebook_pixel][account_exists]" value="yes" id="fbp_acc_yes">
+                                                <label class="form-check-label" for="fbp_acc_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[facebook_pixel][account_exists]" value="no" id="fbp_acc_no">
+                                                <label class="form-check-label" for="fbp_acc_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" name="integrations[facebook_pixel][id]" placeholder="ID"></td>
@@ -1372,13 +1718,15 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Other tracking</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[other_tracking][include]" value="yes" id="ot_yes">
-                                            <label class="form-check-label" for="ot_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="integrations[other_tracking][include]" value="no" id="ot_no">
-                                            <label class="form-check-label" for="ot_no">No</label>
+                                        <div class="d-flex gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[other_tracking][include]" value="yes" id="ot_yes">
+                                                <label class="form-check-label" for="ot_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="integrations[other_tracking][include]" value="no" id="ot_no">
+                                                <label class="form-check-label" for="ot_no">No</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td></td>
@@ -1466,16 +1814,16 @@ if ($submission_id > 0) {
                     <div class="row mb-4">
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Who writes the copy?</label>
-                            <div>
-                                <div class="form-check">
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="content[writer]" value="Client provides" id="writer_client">
                                     <label class="form-check-label" for="writer_client">Client provides</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="content[writer]" value="Developer writes" id="writer_dev">
                                     <label class="form-check-label" for="writer_dev">Developer writes</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="content[writer]" value="Collaborate" id="writer_collab">
                                     <label class="form-check-label" for="writer_collab">Collaborate</label>
                                 </div>
@@ -1483,16 +1831,16 @@ if ($submission_id > 0) {
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Copy status</label>
-                            <div>
-                                <div class="form-check">
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="content[status]" value="Ready" id="content_ready">
                                     <label class="form-check-label" for="content_ready">Ready</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="content[status]" value="Partial" id="content_partial">
                                     <label class="form-check-label" for="content_partial">Partial</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="content[status]" value="Not started" id="content_not">
                                     <label class="form-check-label" for="content_not">Not started</label>
                                 </div>
@@ -1514,7 +1862,7 @@ if ($submission_id > 0) {
                     <div class="row mb-3">
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Existing content to migrate?</label>
-                            <div>
+                            <div class="d-flex gap-3">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="content[migrate]" value="yes" id="migrate_yes">
                                     <label class="form-check-label" for="migrate_yes">Yes</label>
@@ -1536,16 +1884,16 @@ if ($submission_id > 0) {
                     <div class="row mb-3">
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Client provides images?</label>
-                            <div>
-                                <div class="form-check">
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="images[client_provides]" value="yes" id="img_yes">
                                     <label class="form-check-label" for="img_yes">Yes</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="images[client_provides]" value="partial" id="img_partial">
                                     <label class="form-check-label" for="img_partial">Partial</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="images[client_provides]" value="no" id="img_no">
                                     <label class="form-check-label" for="img_no">No</label>
                                 </div>
@@ -1553,7 +1901,7 @@ if ($submission_id > 0) {
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Stock photos needed?</label>
-                            <div class="mb-2">
+                            <div class="d-flex gap-3 mb-2">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="images[stock_needed]" value="yes" id="stock_yes">
                                     <label class="form-check-label" for="stock_yes">Yes</label>
@@ -1570,7 +1918,7 @@ if ($submission_id > 0) {
                     <div class="row mb-3">
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Professional photography needed?</label>
-                            <div>
+                            <div class="d-flex gap-3">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="images[professional_needed]" value="yes" id="prof_photo_yes">
                                     <label class="form-check-label" for="prof_photo_yes">Yes</label>
@@ -1583,7 +1931,7 @@ if ($submission_id > 0) {
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Image optimization needed?</label>
-                            <div>
+                            <div class="d-flex gap-3">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="images[optimization]" value="yes" id="img_opt_yes">
                                     <label class="form-check-label" for="img_opt_yes">Yes</label>
@@ -1662,17 +2010,19 @@ if ($submission_id > 0) {
                                 <tr>
                                     <td><strong>Icons</strong></td>
                                     <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="other_assets[icons][available]" value="yes" id="asset_icon_yes">
-                                            <label class="form-check-label" for="asset_icon_yes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="other_assets[icons][available]" value="no" id="asset_icon_no">
-                                            <label class="form-check-label" for="asset_icon_no">No</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="other_assets[icons][available]" value="icon_library" id="asset_icon_lib">
-                                            <label class="form-check-label" for="asset_icon_lib">Use icon library</label>
+                                        <div class="d-flex flex-wrap gap-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="other_assets[icons][available]" value="yes" id="asset_icon_yes">
+                                                <label class="form-check-label" for="asset_icon_yes">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="other_assets[icons][available]" value="no" id="asset_icon_no">
+                                                <label class="form-check-label" for="asset_icon_no">No</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="other_assets[icons][available]" value="icon_library" id="asset_icon_lib">
+                                                <label class="form-check-label" for="asset_icon_lib">Use icon library</label>
+                                            </div>
                                         </div>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" name="other_assets[icons][notes]"></td>
@@ -1710,7 +2060,7 @@ if ($submission_id > 0) {
                     <div class="row mb-4">
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Local SEO focus?</label>
-                            <div>
+                            <div class="d-flex gap-3">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="seo[local_focus]" value="yes" id="seo_local_yes">
                                     <label class="form-check-label" for="seo_local_yes">Yes</label>
@@ -1730,16 +2080,16 @@ if ($submission_id > 0) {
                     <div class="row mb-3">
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Google Business Profile</label>
-                            <div>
-                                <div class="form-check">
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="seo[google_business]" value="have" id="gbp_have">
                                     <label class="form-check-label" for="gbp_have">Have one</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="seo[google_business]" value="need_setup" id="gbp_need">
                                     <label class="form-check-label" for="gbp_need">Need setup</label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="seo[google_business]" value="not_needed" id="gbp_not">
                                     <label class="form-check-label" for="gbp_not">Not needed</label>
                                 </div>
@@ -1747,7 +2097,7 @@ if ($submission_id > 0) {
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Sitemap required?</label>
-                            <div>
+                            <div class="d-flex gap-3">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="seo[sitemap]" value="yes" id="sitemap_yes">
                                     <label class="form-check-label" for="sitemap_yes">Yes</label>
@@ -1763,7 +2113,7 @@ if ($submission_id > 0) {
                     <div class="row mb-3">
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">robots.txt required?</label>
-                            <div>
+                            <div class="d-flex gap-3">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="seo[robots_txt]" value="yes" id="robots_yes">
                                     <label class="form-check-label" for="robots_yes">Yes</label>
@@ -1776,7 +2126,7 @@ if ($submission_id > 0) {
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label">Schema markup</label>
-                            <div>
+                            <div class="d-flex gap-3">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="seo[schema][include]" value="yes" id="schema_yes">
                                     <label class="form-check-label" for="schema_yes">Yes</label>
@@ -2150,27 +2500,27 @@ if ($submission_id > 0) {
                         <p class="text-muted small">Space for any additional notes, special requirements, or context</p>
                         <textarea class="form-control" id="additional_notes" name="additional_notes" rows="6"></textarea>
                     </div>
-                </div>
-
-                <!-- Form Navigation - Multi-step Controls -->
-                <div class="form-navigation">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <button type="button" class="btn btn-secondary btn-lg" id="prevSectionBtn" disabled>
-                            <i class="bi bi-arrow-left"></i> Previous
-                        </button>
-                        <div class="text-center my-2">
-                            <span id="sectionIndicator" class="badge bg-primary fs-6">Section 1 of 11</span>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-lg" id="nextSectionBtn">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-                        <button type="submit" class="btn btn-success btn-lg" id="submitBtn" style="display: none;">
-                            <i class="bi bi-send"></i> Submit Questionnaire
-                        </button>
-                    </div>
-                </div>
+                </div> <!-- Close Section 11 -->
 
             </form>
+
+            <!-- Form Navigation - Multi-step Controls (Fixed at bottom, OUTSIDE form) -->
+            <div class="form-navigation">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <button type="button" class="btn btn-secondary btn-lg" id="prevSectionBtn" disabled>
+                        <i class="bi bi-arrow-left"></i> Previous
+                    </button>
+                    <div class="text-center my-2">
+                        <span id="sectionIndicator" class="badge bg-primary fs-6">Section 1 of 11</span>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg" id="nextSectionBtn">
+                        Next <i class="bi bi-arrow-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-success btn-lg" id="submitBtn" style="display: none;" form="questionnaireForm">
+                        <i class="bi bi-send"></i> Submit Questionnaire
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -2211,6 +2561,17 @@ function createToastContainer() {
     document.body.appendChild(container);
     return container;
 }
+
+// CRITICAL FIX: Move form-navigation outside of hidden parent
+(function() {
+    const nav = document.querySelector('.form-navigation');
+    const form = document.querySelector('#questionnaireForm');
+    if (nav && form && nav.parentElement.classList.contains('questionnaire-section')) {
+        // Navigation is trapped inside a hidden section - move it after the form
+        form.insertAdjacentElement('afterend', nav);
+        console.log('✅ Form navigation repositioned outside hidden parent');
+    }
+})();
 
 // Form section navigation
 let currentSection = 1;
@@ -2477,6 +2838,335 @@ document.getElementById('avoidSitesTableBody').addEventListener('click', functio
             showToast('warning', 'You must keep at least one avoid website row');
         }
     }
+});
+
+// ===== Section 2: Primary/Secondary Purpose Logic =====
+// When Primary is selected, disable corresponding Secondary checkbox
+const primaryRadios = document.querySelectorAll('input[name="primary_purpose"]');
+const secondaryCheckboxes = document.querySelectorAll('input[name="secondary_purpose[]"]');
+
+if (primaryRadios.length > 0 && secondaryCheckboxes.length > 0) {
+    primaryRadios.forEach(primaryRadio => {
+        primaryRadio.addEventListener('change', function() {
+            // First, enable all secondary checkboxes and uncheck them
+            secondaryCheckboxes.forEach(cb => {
+                cb.disabled = false;
+                cb.checked = false;
+            });
+
+            // Then disable the secondary checkbox that matches the selected primary
+            if (this.checked) {
+                const selectedValue = this.value;
+                secondaryCheckboxes.forEach(cb => {
+                    if (cb.value === selectedValue) {
+                        cb.disabled = true;
+                        cb.checked = false;
+                    }
+                });
+            }
+        });
+    });
+
+    // On page load, check if a primary is already selected and disable corresponding secondary
+    const selectedPrimary = document.querySelector('input[name="primary_purpose"]:checked');
+    if (selectedPrimary) {
+        const selectedValue = selectedPrimary.value;
+        secondaryCheckboxes.forEach(cb => {
+            if (cb.value === selectedValue) {
+                cb.disabled = true;
+                cb.checked = false;
+            }
+        });
+    }
+}
+
+// ===== Section 3: Age Range Multi-Select Dropdown =====
+const ageRangeDropdown = document.getElementById('ageRangeDropdown');
+const ageRangeSelected = document.getElementById('ageRangeSelected');
+const ageRangeOptions = document.getElementById('ageRangeOptions');
+
+if (ageRangeDropdown && ageRangeSelected && ageRangeOptions) {
+    // Toggle dropdown when clicking on the selected area
+    ageRangeSelected.addEventListener('click', function(e) {
+        e.stopPropagation();
+        ageRangeOptions.classList.toggle('show');
+    });
+
+    // Handle checkbox changes
+    const ageCheckboxes = ageRangeOptions.querySelectorAll('input[type="checkbox"]');
+    ageCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateAgeRangeDisplay();
+        });
+    });
+
+    // Update the display with selected age ranges
+    function updateAgeRangeDisplay() {
+        const selected = Array.from(ageCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.nextElementSibling.textContent);
+
+        const placeholder = ageRangeSelected.querySelector('.placeholder');
+        if (selected.length > 0) {
+            placeholder.textContent = selected.join(', ');
+            placeholder.style.color = '#000';
+        } else {
+            placeholder.textContent = 'Select age ranges';
+            placeholder.style.color = '#6c757d';
+        }
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!ageRangeDropdown.contains(e.target)) {
+            ageRangeOptions.classList.remove('show');
+        }
+    });
+
+    // Initialize display on page load (for draft data)
+    updateAgeRangeDisplay();
+}
+
+// ===== Brand Assets Conditional Enable/Disable (Section 5) =====
+// Logo availability
+const logoYes = document.getElementById('logo_yes');
+const logoNo = document.getElementById('logo_no');
+const logoUpload = document.getElementById('logo_upload');
+
+if (logoYes && logoNo && logoUpload) {
+    function updateLogoFields() {
+        const isYes = logoYes.checked;
+        logoUpload.disabled = !isYes;
+    }
+
+    logoYes.addEventListener('change', updateLogoFields);
+    logoNo.addEventListener('change', updateLogoFields);
+    updateLogoFields(); // Initialize on page load
+}
+
+// Brand Colors availability
+const colorsYes = document.getElementById('colors_yes');
+const colorsNo = document.getElementById('colors_no');
+const primaryColorPicker = document.getElementById('primary_color_picker');
+const primaryColorHex = document.getElementById('primary_color_hex');
+const secondaryColorPicker = document.getElementById('secondary_color_picker');
+const secondaryColorHex = document.getElementById('secondary_color_hex');
+
+if (colorsYes && colorsNo && primaryColorPicker && primaryColorHex) {
+    function updateColorFields() {
+        const isYes = colorsYes.checked;
+        primaryColorPicker.disabled = !isYes;
+        primaryColorHex.disabled = !isYes;
+        if (secondaryColorPicker) secondaryColorPicker.disabled = !isYes;
+        if (secondaryColorHex) secondaryColorHex.disabled = !isYes;
+    }
+
+    colorsYes.addEventListener('change', updateColorFields);
+    colorsNo.addEventListener('change', updateColorFields);
+    updateColorFields(); // Initialize on page load
+}
+
+// Sync color picker with hex input
+if (primaryColorPicker && primaryColorHex) {
+    primaryColorPicker.addEventListener('input', function() {
+        primaryColorHex.value = this.value;
+    });
+    primaryColorHex.addEventListener('input', function() {
+        if (/^#[0-9A-F]{6}$/i.test(this.value)) {
+            primaryColorPicker.value = this.value;
+        }
+    });
+}
+
+if (secondaryColorPicker && secondaryColorHex) {
+    secondaryColorPicker.addEventListener('input', function() {
+        secondaryColorHex.value = this.value;
+    });
+    secondaryColorHex.addEventListener('input', function() {
+        if (/^#[0-9A-F]{6}$/i.test(this.value)) {
+            secondaryColorPicker.value = this.value;
+        }
+    });
+}
+
+// Typography/Fonts availability
+const fontsYes = document.getElementById('fonts_yes');
+const fontsNo = document.getElementById('fonts_no');
+const fontsDetails = document.getElementById('fonts_details');
+const fontsUpload = document.getElementById('fonts_upload');
+
+if (fontsYes && fontsNo && fontsDetails) {
+    function updateFontsFields() {
+        const isYes = fontsYes.checked;
+        fontsDetails.disabled = !isYes;
+        if (fontsUpload) fontsUpload.disabled = !isYes;
+    }
+
+    fontsYes.addEventListener('change', updateFontsFields);
+    fontsNo.addEventListener('change', updateFontsFields);
+    updateFontsFields(); // Initialize on page load
+}
+
+// Photography/Images availability
+const photoYes = document.getElementById('photo_yes');
+const photoPartial = document.getElementById('photo_partial');
+const photoNo = document.getElementById('photo_no');
+const photoUpload = document.getElementById('photography_upload');
+const photoBrand = document.getElementById('photography_brand');
+
+if (photoYes && photoPartial && photoNo && photoUpload && photoBrand) {
+    function updatePhotoFields() {
+        const isEnabled = photoYes.checked || photoPartial.checked;
+        photoUpload.disabled = !isEnabled;
+        photoBrand.disabled = !isEnabled;
+    }
+
+    photoYes.addEventListener('change', updatePhotoFields);
+    photoPartial.addEventListener('change', updatePhotoFields);
+    photoNo.addEventListener('change', updatePhotoFields);
+    updatePhotoFields(); // Initialize on page load
+}
+
+// ===== Style Preferences Conditional Display (based on Reference Websites) =====
+const stylePreferencesSection = document.getElementById('stylePreferencesSection');
+const referenceSitesTableBody = document.getElementById('referenceSitesTableBody');
+
+if (stylePreferencesSection && referenceSitesTableBody) {
+    function checkReferenceWebsites() {
+        // Get all URL input fields in the reference sites table
+        const urlInputs = referenceSitesTableBody.querySelectorAll('input[type="url"]');
+
+        // Check if ANY URL field has a value
+        let hasReferenceWebsite = false;
+        urlInputs.forEach(input => {
+            if (input.value.trim() !== '') {
+                hasReferenceWebsite = true;
+            }
+        });
+
+        // Show/hide and enable/disable Style Preferences section
+        if (hasReferenceWebsite) {
+            stylePreferencesSection.style.display = 'none';
+            // Disable all inputs in the section
+            const inputs = stylePreferencesSection.querySelectorAll('input, textarea');
+            inputs.forEach(input => input.disabled = true);
+        } else {
+            stylePreferencesSection.style.display = 'block';
+            // Enable all inputs in the section
+            const inputs = stylePreferencesSection.querySelectorAll('input, textarea');
+            inputs.forEach(input => input.disabled = false);
+        }
+    }
+
+    // Monitor all existing URL inputs
+    function attachReferenceWebsiteListeners() {
+        const urlInputs = referenceSitesTableBody.querySelectorAll('input[type="url"]');
+        urlInputs.forEach(input => {
+            input.addEventListener('input', checkReferenceWebsites);
+        });
+    }
+
+    // Initial check and attach listeners
+    attachReferenceWebsiteListeners();
+    checkReferenceWebsites();
+
+    // Re-attach listeners when new rows are added (observer for dynamic rows)
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                attachReferenceWebsiteListeners();
+            }
+        });
+    });
+
+    observer.observe(referenceSitesTableBody, { childList: true });
+}
+
+// ===== Style Preview Cards Dynamic Display =====
+const styleCheckboxes = {
+    'feel_modern': 'preview_modern',
+    'feel_classic': 'preview_classic',
+    'feel_minimal': 'preview_minimal',
+    'feel_bold': 'preview_bold',
+    'feel_prof': 'preview_prof',
+    'feel_playful': 'preview_playful'
+};
+
+// Function to toggle preview card visibility
+function toggleStylePreview(checkboxId, previewId) {
+    const checkbox = document.getElementById(checkboxId);
+    const preview = document.getElementById(previewId);
+
+    if (checkbox && preview) {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+
+        // Initialize on page load (for draft data)
+        if (checkbox.checked) {
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+}
+
+// Attach listeners to all style checkboxes
+Object.keys(styleCheckboxes).forEach(checkboxId => {
+    toggleStylePreview(checkboxId, styleCheckboxes[checkboxId]);
+});
+
+// Color Mood preview toggles
+const colorMoodCheckboxes = {
+    'mood_light': 'preview_mood_light',
+    'mood_dark': 'preview_mood_dark',
+    'mood_colorful': 'preview_mood_colorful',
+    'mood_neutral': 'preview_mood_neutral'
+};
+
+Object.keys(colorMoodCheckboxes).forEach(checkboxId => {
+    toggleStylePreview(checkboxId, colorMoodCheckboxes[checkboxId]);
+});
+
+// Layout preview toggles (radio buttons)
+const layoutRadios = {
+    'layout_clean': 'preview_layout_clean',
+    'layout_dense': 'preview_layout_dense'
+};
+
+function toggleLayoutPreview(radioId, previewId) {
+    const radio = document.getElementById(radioId);
+    const preview = document.getElementById(previewId);
+
+    if (radio && preview) {
+        radio.addEventListener('change', function() {
+            // Hide all layout previews first
+            Object.values(layoutRadios).forEach(pId => {
+                const p = document.getElementById(pId);
+                if (p) p.style.display = 'none';
+            });
+
+            // Show the selected one
+            if (this.checked) {
+                preview.style.display = 'block';
+            }
+        });
+
+        // Initialize on page load (for draft data)
+        if (radio.checked) {
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+}
+
+Object.keys(layoutRadios).forEach(radioId => {
+    toggleLayoutPreview(radioId, layoutRadios[radioId]);
 });
 
 // ===== Dynamic Additional Pages Rows (Section 4) =====
