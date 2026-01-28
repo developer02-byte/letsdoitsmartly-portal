@@ -1,28 +1,16 @@
 <?php
-define('PORTAL_ACCESS', true);
-require_once 'includes/config.php';
-require_once 'includes/db.php';
-require_once 'includes/helpers.php';
+session_start();
+define("PORTAL_ACCESS", true);
 
-// Public form - no login required
-// requireLogin();
+// Mock functions - no database needed
+function generateCSRFToken() { return "demo-csrf-token-12345"; }
+function sanitize($input) { return htmlspecialchars($input, ENT_QUOTES, "UTF-8"); }
 
-$page_title = 'Client Questionnaire';
-$current_page = 'form';
-
-// Check for draft/edit mode
-$submission_id = isset($_GET['edit']) ? intval($_GET['edit']) : 0;
+$page_title = "NEW BRANCH - Enhanced Questionnaire";
+$current_page = "form";
 $draft_data = [];
-if ($submission_id > 0) {
-    // Load existing submission (public form - no user_id check)
-    $stmt = $conn->prepare("SELECT form_data FROM questionnaire_submissions WHERE id = ?");
-    $stmt->bind_param('i', $submission_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($row = $result->fetch_assoc()) {
-        $draft_data = json_decode($row['form_data'], true) ?? [];
-    }
-}
+$submission_id = 0;
+?>
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +20,7 @@ if ($submission_id > 0) {
     <title><?php echo $page_title; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/style.css?v=3.3.0">
 </head>
 <body>
 <div class="container-fluid p-0">
@@ -483,23 +471,6 @@ if ($submission_id > 0) {
                         <button type="button" class="btn btn-outline-primary btn-sm" id="addAdditionalPageBtn">
                             <i class="bi bi-plus-circle me-1"></i> Add Additional Page
                         </button>
-                    </div>
-
-                    <hr class="my-4">
-                    <h5 class="mb-3">Total Page Count</h5>
-                    <div class="row">
-                        <div class="col-12 col-md-4 mb-3">
-                            <label for="standard_pages_count" class="form-label">Standard pages (from above)</label>
-                            <input type="number" class="form-control" id="standard_pages_count" name="page_count[standard]" min="0" readonly>
-                        </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <label for="additional_pages_count" class="form-label">Additional pages</label>
-                            <input type="number" class="form-control" id="additional_pages_count" name="page_count[additional]" min="0" readonly>
-                        </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <label for="total_pages_count" class="form-label"><strong>TOTAL</strong></label>
-                            <input type="number" class="form-control fw-bold" id="total_pages_count" name="page_count[total]" min="0" readonly>
-                        </div>
                     </div>
                 </div>
 
@@ -2151,31 +2122,39 @@ if ($submission_id > 0) {
                         <textarea class="form-control" id="additional_notes" name="additional_notes" rows="6"></textarea>
                     </div>
                 </div>
-
-                <!-- Form Navigation - Multi-step Controls -->
-                <div class="form-navigation">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <button type="button" class="btn btn-secondary btn-lg" id="prevSectionBtn" disabled>
-                            <i class="bi bi-arrow-left"></i> Previous
-                        </button>
-                        <div class="text-center my-2">
-                            <span id="sectionIndicator" class="badge bg-primary fs-6">Section 1 of 11</span>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-lg" id="nextSectionBtn">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-                        <button type="submit" class="btn btn-success btn-lg" id="submitBtn" style="display: none;">
-                            <i class="bi bi-send"></i> Submit Questionnaire
-                        </button>
-                    </div>
-                </div>
-
             </form>
         </div>
     </div>
 </div>
 
+
+<div class="form-navigation">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <button type="button" class="btn btn-secondary btn-lg" id="prevSectionBtn" disabled>
+            <i class="bi bi-arrow-left"></i> Previous
+        </button>
+        <div class="text-center my-2">
+            <span id="sectionIndicator" class="badge bg-primary fs-6">Section 1 of 11</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="nextSectionBtn">
+            Next <i class="bi bi-arrow-right"></i>
+        </button>
+        <button type="submit" class="btn btn-success btn-lg" id="submitBtn" style="display: none;" form="questionnaireForm">
+            <i class="bi bi-send"></i> Submit Questionnaire
+        </button>
+    </div>
+</div>
+
 <script>
+(function() {
+    const nav = document.querySelector('.form-navigation');
+    if (nav && nav.closest('.questionnaire-section')) {
+        document.body.appendChild(nav);
+        console.log('✅ Navigation repositioned');
+    }
+})();
+
+
 // Toast notification function
 function showToast(type, message) {
     const toastContainer = document.getElementById('toastContainer') || createToastContainer();
